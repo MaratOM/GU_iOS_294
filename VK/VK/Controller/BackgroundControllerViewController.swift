@@ -1,25 +1,19 @@
 //
-//  GreenController.swift
+//  BackgroundControllerViewController.swift
 //  VK
 //
-//  Created by Marat Mikaelyan on 25/10/2019.
+//  Created by User on 26/10/2019.
 //  Copyright © 2019 maratom. All rights reserved.
 //
 
 import UIKit
 
-class GreenController: UIViewController {
+class BackgroundControllerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
 
