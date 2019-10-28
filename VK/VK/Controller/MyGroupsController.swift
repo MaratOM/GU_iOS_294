@@ -17,25 +17,13 @@ class MyGroupsController: UITableViewController {
         Group(image: UIImage(named: "UKFlag")!,title: "English movie club")
     ]
     
-    override func viewWillAppear(_ animated: Bool) {
-        assignbackground()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+                
+        self.tableView.backgroundView = getBackgroundImage();
     }
     
     
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -51,40 +39,24 @@ class MyGroupsController: UITableViewController {
             preconditionFailure("Cell can not be dequeued")
         }
         
-        cell.groupTitleLabel?.text = groups[indexPath.row].title
-        cell.groupImageView?.image = groups[indexPath.row].image
-                
+        cell.backgroundColor = .clear
+        cell.selectedBackgroundView = UIView()
         cell.groupTitleLabel?.textColor = UIColor.white
         
-        cell.backgroundColor = .clear
-        cell.backgroundView = UIView()
-        cell.selectedBackgroundView = UIView()
-
+        cell.groupTitleLabel?.text = groups[indexPath.row].title
+        cell.groupImageView?.image = groups[indexPath.row].image
+                        
         return cell
     }
-    
-    func assignbackground(){
-          let background = UIImage(named: "vk_bg")
 
-          var imageView : UIImageView!
-          imageView = UIImageView(frame: view.bounds)
-//          imageView.contentMode =  UIViewContentMode.ScaleAspectFill
-          imageView.clipsToBounds = true
-          imageView.image = background
-          imageView.center = view.center
-//          view.addSubview(imageView)
-//          self.view.sendSubviewToBack(imageView)
-//          self.view.insertSubview(imageView, at: 0)
-        self.tableView.backgroundView = imageView;
-      }
-
-    
     @IBAction func addSelectedGroup(segue: UIStoryboardSegue) {
         if let sourceVC = segue.source as? AllGroupsController,
             let indexPath = sourceVC.tableView.indexPathForSelectedRow {
             let group = sourceVC.groups[indexPath.row]
-            groups.append(group)
-            tableView.reloadData()
+            if !groups.contains(where: {$0.title == group.title}) {
+                groups.append(group)
+                tableView.reloadData()
+            }
         }
     }
 

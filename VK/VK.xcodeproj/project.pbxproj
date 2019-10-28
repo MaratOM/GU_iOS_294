@@ -22,7 +22,6 @@
 		CEAB268C23646C16008F24BA /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB268B23646C16008F24BA /* Friend.swift */; };
 		CEAB268E23647831008F24BA /* PhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB268D23647831008F24BA /* PhotosController.swift */; };
 		CEAB269023647887008F24BA /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB268F23647887008F24BA /* PhotoCell.swift */; };
-		CEAB26972364CA01008F24BA /* BackgroundControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB26962364CA01008F24BA /* BackgroundControllerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +42,6 @@
 		CEAB268B23646C16008F24BA /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		CEAB268D23647831008F24BA /* PhotosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosController.swift; sourceTree = "<group>"; };
 		CEAB268F23647887008F24BA /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
-		CEAB26962364CA01008F24BA /* BackgroundControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundControllerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +93,6 @@
 				CEAB267D23644E39008F24BA /* MyGroupsController.swift */,
 				CEAB268D23647831008F24BA /* PhotosController.swift */,
 				CEAB2685236460D3008F24BA /* AllGroupsController.swift */,
-				CEAB26962364CA01008F24BA /* BackgroundControllerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -208,7 +205,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEAB26972364CA01008F24BA /* BackgroundControllerViewController.swift in Sources */,
 				CEAB2684236458A1008F24BA /* Group.swift in Sources */,
 				CEAB268823646AD9008F24BA /* FriendsController.swift in Sources */,
 				CE495DF7235B05D4005BE93A /* LoginController.swift in Sources */,

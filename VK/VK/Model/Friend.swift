@@ -9,11 +9,11 @@
 import UIKit
 
 class Friend {
-    let id: Int
+    let id: String
     let image: UIImage
     let name: String
     
-    init(id: Int, image: UIImage, name: String) {
+    init(id: String, image: UIImage, name: String) {
         self.id = id
         self.image = image
         self.name = name

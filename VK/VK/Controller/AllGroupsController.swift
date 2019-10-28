@@ -27,25 +27,8 @@ class AllGroupsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        assignbackground()
-
-        // Do any additional setup after loading the view.
+        self.tableView.backgroundView = getBackgroundImage();
     }
-    
-        func assignbackground(){
-              let background = UIImage(named: "vk_bg")
-
-              var imageView : UIImageView!
-              imageView = UIImageView(frame: view.bounds)
-    //          imageView.contentMode =  UIViewContentMode.ScaleAspectFill
-              imageView.clipsToBounds = true
-              imageView.image = background
-              imageView.center = view.center
-    //          view.addSubview(imageView)
-    //          self.view.sendSubviewToBack(imageView)
-    //          self.view.insertSubview(imageView, at: 0)
-            self.tableView.backgroundView = imageView;
-          }
 
 }
 
@@ -57,15 +40,13 @@ extension AllGroupsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BasicGroupCell", for: indexPath)
         
+        cell.backgroundColor = .clear
+        cell.selectedBackgroundView = UIView()
+        cell.textLabel?.textColor = UIColor.white
+        
         cell.textLabel?.text = groups[indexPath.row].title
         cell.imageView?.image = groups[indexPath.row].image
         
-        cell.textLabel?.textColor = UIColor.white
-
-        cell.backgroundColor = .clear
-        cell.backgroundView = UIView()
-        cell.selectedBackgroundView = UIView()
-
         return cell
     }
         

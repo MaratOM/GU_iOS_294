@@ -11,16 +11,17 @@ import UIKit
 class FriendsController: UITableViewController {
     
     let friends = [
-        Friend(id: 1, image: UIImage(named: "UKFlag")!, name: "Jim Mirrison"),
-        Friend(id: 2, image: UIImage(named: "UKFlag")!, name: "Nick Cave"),
-        Friend(id: 3, image: UIImage(named: "UKFlag")!, name: "Chris Cornell"),
-        Friend(id: 4, image: UIImage(named: "UKFlag")!, name: "Jack White"),
-        Friend(id: 5, image: UIImage(named: "UKFlag")!, name: "Jimi Hendrix"),
+        Friend(id: "1", image: UIImage(named: "1")!, name: "Jack White"),
+        Friend(id: "2", image: UIImage(named: "2")!, name: "Chris Cornell"),
+        Friend(id: "3", image: UIImage(named: "3")!, name: "Jim Morrison"),
+        Friend(id: "4", image: UIImage(named: "4")!, name: "Nick Cave"),
+        Friend(id: "5", image: UIImage(named: "5")!, name: "Jimi Hendrix"),
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableView.backgroundView = getBackgroundImage();
     }
 
     // MARK: - Table view data source
@@ -39,6 +40,10 @@ class FriendsController: UITableViewController {
             preconditionFailure("Can not cast FriendCell")
         }
         
+        cell.backgroundColor = .clear
+        cell.selectedBackgroundView = UIView()
+        cell.friendNameLabel?.textColor = UIColor.white
+        
         cell.friendImageView.image = friends[indexPath.row].image
         cell.friendNameLabel.text = friends[indexPath.row].name
 
@@ -49,7 +54,7 @@ class FriendsController: UITableViewController {
         if segue.identifier == "Show Friend Photos",
             let destinationVC = segue.destination as? PhotosController {
             let indexPath = tableView.indexPathForSelectedRow;
-            destinationVC.title = friends[indexPath!.row].name
+            destinationVC.friend = friends[indexPath!.row]
         }
     }
 

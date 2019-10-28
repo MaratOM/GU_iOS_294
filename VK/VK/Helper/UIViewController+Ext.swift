@@ -16,4 +16,17 @@ extension UIViewController {
         alertVC.addAction(okAction)
         present(alertVC, animated: true)
     }
+    
+    func getBackgroundImage() -> UIImageView {
+          let background = UIImage(named: "vk_bg")
+          var imageView : UIImageView!
+        
+          imageView = UIImageView(frame: view.bounds)
+          imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+          imageView.clipsToBounds = true
+          imageView.image = background
+          imageView.center = view.center
+        
+          return imageView
+      }
 }
