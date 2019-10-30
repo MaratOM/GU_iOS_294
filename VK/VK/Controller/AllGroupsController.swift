@@ -21,7 +21,9 @@ class AllGroupsController: UIViewController {
         Group(image: UIImage(named: "UKFlag")!, title: "UK English lessons"),
         Group(image: UIImage(named: "UKFlag")!, title: "English with native speaker"),
         Group(image: UIImage(named: "UKFlag")!, title: "English books club"),
-        Group(image: UIImage(named: "UKFlag")!, title: "English games club")
+        Group(image: UIImage(named: "UKFlag")!, title: "English games club"),
+        Group(image: UIImage(named: "UKFlag")!,title: "English speaking club"),
+        Group(image: UIImage(named: "UKFlag")!,title: "English movie club")
     ]
     
     override func viewDidLoad() {

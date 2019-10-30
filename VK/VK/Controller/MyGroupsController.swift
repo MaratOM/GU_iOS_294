@@ -11,10 +11,7 @@ import UIKit
 class MyGroupsController: UITableViewController {
     var groups = [
         Group(image: UIImage(named: "UKFlag")!,title: "English lessons"),
-        Group(image: UIImage(named: "UKFlag")!,title: "English meetings"),
-        Group(image: UIImage(named: "UKFlag")!,title: "English group"),
-        Group(image: UIImage(named: "UKFlag")!,title: "English speaking club"),
-        Group(image: UIImage(named: "UKFlag")!,title: "English movie club")
+        Group(image: UIImage(named: "UKFlag")!,title: "English meetings")
     ]
     
     override func viewDidLoad() {
@@ -48,6 +45,14 @@ class MyGroupsController: UITableViewController {
                         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            groups.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+
 
     @IBAction func addSelectedGroup(segue: UIStoryboardSegue) {
         if let sourceVC = segue.source as? AllGroupsController,

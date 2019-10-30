@@ -17,9 +17,6 @@ class PhotosController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
         self.collectionView.backgroundView = getBackgroundImage();
         self.title = friend?.name
 
