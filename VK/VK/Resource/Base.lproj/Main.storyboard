@@ -272,27 +272,49 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="164"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NbB-co-L2i">
-                                            <rect key="frame" x="52" y="27" width="100" height="100"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xLW-Wi-IJF" userLabel="Avatar View" customClass="AvatarView" customModule="VK" customModuleProvider="target">
+                                            <rect key="frame" x="50" y="21" width="100" height="100"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5hj-Km-Wkk" userLabel="Shadow View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                </view>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NbB-co-L2i">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="100" id="f5o-L9-syC"/>
-                                                <constraint firstAttribute="width" secondItem="NbB-co-L2i" secondAttribute="height" multiplier="1:1" id="jE8-nA-9lj"/>
+                                                <constraint firstItem="NbB-co-L2i" firstAttribute="top" secondItem="xLW-Wi-IJF" secondAttribute="top" id="Dtb-Ro-n8I"/>
+                                                <constraint firstAttribute="bottom" secondItem="5hj-Km-Wkk" secondAttribute="bottom" id="Hn8-yT-ocG"/>
+                                                <constraint firstItem="NbB-co-L2i" firstAttribute="leading" secondItem="xLW-Wi-IJF" secondAttribute="leading" id="QDp-ve-vl3"/>
+                                                <constraint firstAttribute="bottom" secondItem="NbB-co-L2i" secondAttribute="bottom" priority="999" id="UKN-zt-Y2m"/>
+                                                <constraint firstAttribute="width" secondItem="xLW-Wi-IJF" secondAttribute="height" multiplier="1:1" id="YxD-AR-htS"/>
+                                                <constraint firstItem="5hj-Km-Wkk" firstAttribute="leading" secondItem="xLW-Wi-IJF" secondAttribute="leading" id="b70-Yi-Stb"/>
+                                                <constraint firstAttribute="trailing" secondItem="5hj-Km-Wkk" secondAttribute="trailing" id="c8Z-gI-bsK"/>
+                                                <constraint firstAttribute="width" constant="100" id="ftX-pq-Aa9"/>
+                                                <constraint firstAttribute="trailing" secondItem="NbB-co-L2i" secondAttribute="trailing" id="lSs-xT-UnJ"/>
+                                                <constraint firstItem="5hj-Km-Wkk" firstAttribute="top" secondItem="xLW-Wi-IJF" secondAttribute="top" id="p56-iv-7hj"/>
                                             </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBA-Cb-yBv">
-                                            <rect key="frame" x="184" y="66.666666666666671" width="178" height="21"/>
+                                            <connections>
+                                                <outlet property="friendImageView" destination="NbB-co-L2i" id="TOX-8Z-3i2"/>
+                                                <outlet property="shadowView" destination="5hj-Km-Wkk" id="7K7-AL-hFB"/>
+                                            </connections>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBA-Cb-yBv">
+                                            <rect key="frame" x="180" y="71.666666666666671" width="204" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="NbB-co-L2i" secondAttribute="bottom" priority="999" constant="16" id="HCT-aD-SXS"/>
-                                        <constraint firstItem="NbB-co-L2i" firstAttribute="leading" secondItem="mcp-CU-aH1" secondAttribute="leadingMargin" constant="32" id="b9v-uX-O8k"/>
-                                        <constraint firstItem="OBA-Cb-yBv" firstAttribute="centerY" secondItem="NbB-co-L2i" secondAttribute="centerY" id="jFg-g3-esO"/>
-                                        <constraint firstItem="OBA-Cb-yBv" firstAttribute="leading" secondItem="NbB-co-L2i" secondAttribute="trailing" constant="32" id="kpc-ca-std"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="OBA-Cb-yBv" secondAttribute="trailing" priority="999" constant="32" id="pKf-9o-yR6"/>
-                                        <constraint firstItem="NbB-co-L2i" firstAttribute="top" secondItem="mcp-CU-aH1" secondAttribute="topMargin" constant="16" id="roh-45-7N6"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="xLW-Wi-IJF" secondAttribute="bottom" priority="999" constant="10" id="9BI-Hx-ceO"/>
+                                        <constraint firstItem="xLW-Wi-IJF" firstAttribute="top" secondItem="mcp-CU-aH1" secondAttribute="topMargin" constant="10" id="GgY-ew-M2O"/>
+                                        <constraint firstItem="OBA-Cb-yBv" firstAttribute="leading" secondItem="xLW-Wi-IJF" secondAttribute="trailing" constant="30" id="Mp7-4S-6Ja"/>
+                                        <constraint firstItem="OBA-Cb-yBv" firstAttribute="centerY" secondItem="mcp-CU-aH1" secondAttribute="centerY" id="dvZ-L0-9Ac"/>
+                                        <constraint firstItem="xLW-Wi-IJF" firstAttribute="leading" secondItem="mcp-CU-aH1" secondAttribute="leadingMargin" constant="30" id="hBJ-6Q-Nvh"/>
+                                        <constraint firstAttribute="trailing" secondItem="OBA-Cb-yBv" secondAttribute="trailing" priority="999" constant="30" id="xZO-fl-Kyf"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
