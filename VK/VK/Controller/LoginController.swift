@@ -8,48 +8,6 @@
 
 import UIKit
 
-@IBDesignable class TestView: UIView {
-    
-    @IBInspectable var radius: CGFloat = 10 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        guard let context = UIGraphicsGetCurrentContext() else { return }
-        context.setFillColor(UIColor.red.cgColor)
-        context.fillEllipse(in: CGRect(x: rect.midX - radius,
-                                       y: rect.midY - radius,
-                                       width: radius * 2,
-                                       height: radius * 2))
-        
-    }
-    
-    lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-        let recognizer = UITapGestureRecognizer(target: self,
-                                                action: #selector(onTap))
-        recognizer.numberOfTapsRequired = 1    // Количество нажатий, необходимое для распознавания
-        recognizer.numberOfTouchesRequired = 1 // Количество пальцев, которые должны коснуться экрана для распознавания
-        return recognizer
-    }()
-    
-    @objc func onTap() {
-        print("Произошло нажатие")
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addGestureRecognizer(tapGestureRecognizer)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-}
-
 class LoginController: UIViewController {
 
     // MARK: - Outlets

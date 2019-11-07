@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		89CD31AB2363033D002D4479 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31AA2363033D002D4479 /* UIViewController+Ext.swift */; };
+		89CD31AD236B12A6002D4479 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31AC236B12A6002D4479 /* TestController.swift */; };
+		89CD31B0236B2F86002D4479 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31AF236B2F86002D4479 /* AvatarView.swift */; };
+		89CD31B2236B3009002D4479 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31B1236B3009002D4479 /* AvatarImageView.swift */; };
 		CE495DF5235B05D4005BE93A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE495DF4235B05D4005BE93A /* AppDelegate.swift */; };
 		CE495DF7235B05D4005BE93A /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE495DF6235B05D4005BE93A /* LoginController.swift */; };
 		CE495DFA235B05D4005BE93A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE495DF8235B05D4005BE93A /* Main.storyboard */; };
@@ -26,6 +29,9 @@
 
 /* Begin PBXFileReference section */
 		89CD31AA2363033D002D4479 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		89CD31AC236B12A6002D4479 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
+		89CD31AF236B2F86002D4479 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		89CD31B1236B3009002D4479 /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		CE495DF1235B05D4005BE93A /* VK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE495DF4235B05D4005BE93A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE495DF6235B05D4005BE93A /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -55,6 +61,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		89CD31AE236B2F27002D4479 /* Avatar */ = {
+			isa = PBXGroup;
+			children = (
+				89CD31AF236B2F86002D4479 /* AvatarView.swift */,
+				89CD31B1236B3009002D4479 /* AvatarImageView.swift */,
+			);
+			path = Avatar;
+			sourceTree = "<group>";
+		};
 		CE495DE8235B05D4005BE93A = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +108,7 @@
 				CEAB267D23644E39008F24BA /* MyGroupsController.swift */,
 				CEAB268D23647831008F24BA /* PhotosController.swift */,
 				CEAB2685236460D3008F24BA /* AllGroupsController.swift */,
+				89CD31AC236B12A6002D4479 /* TestController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -100,6 +116,7 @@
 		CEAB269223647E95008F24BA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				89CD31AE236B2F27002D4479 /* Avatar */,
 				CEAB268123645365008F24BA /* GroupCell.swift */,
 				CEAB268923646B1E008F24BA /* FriendCell.swift */,
 				CEAB268F23647887008F24BA /* PhotoCell.swift */,
@@ -211,12 +228,15 @@
 				CEAB268E23647831008F24BA /* PhotosController.swift in Sources */,
 				CEAB269023647887008F24BA /* PhotoCell.swift in Sources */,
 				CEAB267E23644E39008F24BA /* MyGroupsController.swift in Sources */,
+				89CD31B2236B3009002D4479 /* AvatarImageView.swift in Sources */,
 				CEAB268A23646B1E008F24BA /* FriendCell.swift in Sources */,
 				CEAB268223645365008F24BA /* GroupCell.swift in Sources */,
+				89CD31AD236B12A6002D4479 /* TestController.swift in Sources */,
 				89CD31AB2363033D002D4479 /* UIViewController+Ext.swift in Sources */,
 				CEAB268C23646C16008F24BA /* Friend.swift in Sources */,
 				CEAB2686236460D3008F24BA /* AllGroupsController.swift in Sources */,
 				CE495DF5235B05D4005BE93A /* AppDelegate.swift in Sources */,
+				89CD31B0236B2F86002D4479 /* AvatarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
