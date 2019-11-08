@@ -364,11 +364,32 @@
                                                 <constraint firstAttribute="width" constant="150" id="u1a-Og-B52"/>
                                             </constraints>
                                         </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OY4-k4-QSR" userLabel="Like Control View" customClass="LikeButton" customModule="VK" customModuleProvider="target">
+                                            <rect key="frame" x="150" y="150" width="20" height="20"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="8PN-xs-SlQ"/>
+                                                <constraint firstAttribute="width" secondItem="OY4-k4-QSR" secondAttribute="height" multiplier="1:1" id="Vz0-BN-Fao"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="filled" value="NO"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqB-Qm-dKt">
+                                            <rect key="frame" x="103" y="97" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="likeButton:" destination="aW9-9H-JUb" eventType="touchUpInside" id="WWR-KX-5RW"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="DFx-af-HcF" secondAttribute="bottom" constant="10" id="1Vl-4U-tgn"/>
+                                        <constraint firstAttribute="bottom" secondItem="OY4-k4-QSR" secondAttribute="bottom" id="3Z4-ku-bKK"/>
                                         <constraint firstItem="DFx-af-HcF" firstAttribute="leading" secondItem="hh5-Bg-oos" secondAttribute="leading" constant="10" id="Egy-p1-sbf"/>
                                         <constraint firstItem="DFx-af-HcF" firstAttribute="top" secondItem="hh5-Bg-oos" secondAttribute="top" constant="10" id="nmQ-b7-bVt"/>
+                                        <constraint firstAttribute="trailing" secondItem="OY4-k4-QSR" secondAttribute="trailing" id="tGj-oE-Df6"/>
                                         <constraint firstAttribute="trailing" secondItem="DFx-af-HcF" secondAttribute="trailing" constant="10" id="zs5-og-eqC"/>
                                     </constraints>
                                 </collectionViewCellContentView>
@@ -386,6 +407,7 @@
                     <navigationItem key="navigationItem" id="wZR-8s-yti"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JzB-yT-o2B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="aW9-9H-JUb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="769.56521739130437" y="869.86607142857144"/>
         </scene>
