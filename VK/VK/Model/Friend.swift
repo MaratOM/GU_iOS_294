@@ -12,10 +12,12 @@ class Friend {
     let id: String
     let image: UIImage
     let name: String
+    let photos: [Photo]
     
-    init(id: String, image: UIImage, name: String) {
+    init(id: String, image: UIImage, name: String, photos: [Photo] = []) {
         self.id = id
         self.image = image
         self.name = name
+        self.photos = photos
     }
 }

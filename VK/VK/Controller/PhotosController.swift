@@ -30,7 +30,7 @@ class PhotosController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Int.random(in: 5 ... 10)
+        return (friend?.photos.count)!
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -41,7 +41,9 @@ class PhotosController: UICollectionViewController {
         cell.backgroundColor = .clear
         cell.selectedBackgroundView = UIView()
 
-        cell.photoImageView.image = UIImage(named: friend!.id)
+        cell.photoImageView.image = friend?.photos[indexPath.row].image
+        
+        cell.configureLikeControl(likes: (friend?.photos[indexPath.row].likesCount)!, isLikedByUser: (friend?.photos[indexPath.row].isLiked)!)
     
         return cell
     }

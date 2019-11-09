@@ -10,16 +10,18 @@ import UIKit
 
 class FriendsController: UITableViewController {
     
-    let friends = [
-        Friend(id: "1", image: UIImage(named: "1")!, name: "Jack White"),
-        Friend(id: "2", image: UIImage(named: "2")!, name: "Chris Cornell"),
-        Friend(id: "3", image: UIImage(named: "3")!, name: "Jim Morrison"),
-        Friend(id: "4", image: UIImage(named: "4")!, name: "Nick Cave"),
-        Friend(id: "5", image: UIImage(named: "5")!, name: "Jimi Hendrix"),
-    ]
+    var friends = [Friend]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        friends = [
+            Friend(id: "1", image: UIImage(named: "1")!, name: "Jack White", photos: createFriendPhotos(imageName: "1")),
+            Friend(id: "2", image: UIImage(named: "2")!, name: "Chris Cornell", photos: createFriendPhotos(imageName: "2")),
+            Friend(id: "3", image: UIImage(named: "3")!, name: "Jim Morrison", photos: createFriendPhotos(imageName: "3")),
+            Friend(id: "4", image: UIImage(named: "4")!, name: "Nick Cave", photos: createFriendPhotos(imageName: "4")),
+            Friend(id: "5", image: UIImage(named: "5")!, name: "Jimi Hendrix", photos: createFriendPhotos(imageName: "5")),
+        ]
 
         self.tableView.backgroundView = getBackgroundImage();
     }
@@ -56,6 +58,16 @@ class FriendsController: UITableViewController {
             let indexPath = tableView.indexPathForSelectedRow;
             destinationVC.friend = friends[indexPath!.row]
         }
+    }
+    
+    func createFriendPhotos(imageName: String) -> [Photo] {
+        var photos = [Photo]()
+        
+        for _ in 4...10 {
+            photos.append(Photo(image: UIImage(named: imageName)!, isLiked: Bool.random(), likesCount: Int.random(in: 10...100)))
+        }
+        
+        return photos
     }
 
 }
