@@ -13,10 +13,17 @@ class AllGroupsController: UIViewController {
     @IBOutlet var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
+            tableView.delegate = self
         }
     }
     
-    let groups = [
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet {
+            searchBar.delegate = self
+        }
+    }
+    
+    let allGroups = [
         Group(image: UIImage(named: "UKFlag")!, title: "American English lessons"),
         Group(image: UIImage(named: "UKFlag")!, title: "UK English lessons"),
         Group(image: UIImage(named: "UKFlag")!, title: "English with native speaker"),
@@ -26,15 +33,18 @@ class AllGroupsController: UIViewController {
         Group(image: UIImage(named: "UKFlag")!,title: "English movie club")
     ]
     
+    var groups = [Group]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        groups = allGroups
         self.tableView.backgroundView = getBackgroundImage();
     }
 
 }
 
-extension AllGroupsController: UITableViewDataSource {
+extension AllGroupsController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return groups.count
     }
@@ -52,4 +62,17 @@ extension AllGroupsController: UITableViewDataSource {
         return cell
     }
         
+}
+
+extension AllGroupsController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            groups = allGroups
+        } else {
+            groups = groups.filter({ $0.title.lowercased().contains(searchText.lowercased()) })
+        }
+        
+        tableView.reloadData()
+        print(searchText)
+    }
 }
