@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		89CD31AB2363033D002D4479 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31AA2363033D002D4479 /* UIViewController+Ext.swift */; };
+		89CD31B623745AFB002D4479 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31B523745AFB002D4479 /* AvatarView.swift */; };
+		89CD31B823758067002D4479 /* UIBezierPath+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31B723758067002D4479 /* UIBezierPath+ext.swift */; };
+		89CD31BA237580A2002D4479 /* Int+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31B9237580A2002D4479 /* Int+ext.swift */; };
+		89CD31BC2375827A002D4479 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31BB2375827A002D4479 /* LikeControl.swift */; };
 		CE495DF5235B05D4005BE93A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE495DF4235B05D4005BE93A /* AppDelegate.swift */; };
 		CE495DF7235B05D4005BE93A /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE495DF6235B05D4005BE93A /* LoginController.swift */; };
 		CE495DFA235B05D4005BE93A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE495DF8235B05D4005BE93A /* Main.storyboard */; };
@@ -22,10 +26,15 @@
 		CEAB268C23646C16008F24BA /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB268B23646C16008F24BA /* Friend.swift */; };
 		CEAB268E23647831008F24BA /* PhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB268D23647831008F24BA /* PhotosController.swift */; };
 		CEAB269023647887008F24BA /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB268F23647887008F24BA /* PhotoCell.swift */; };
+		CEAB269D2377456B008F24BA /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAB269C2377456B008F24BA /* Photo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		89CD31AA2363033D002D4479 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		89CD31B523745AFB002D4479 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		89CD31B723758067002D4479 /* UIBezierPath+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+ext.swift"; sourceTree = "<group>"; };
+		89CD31B9237580A2002D4479 /* Int+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+ext.swift"; sourceTree = "<group>"; };
+		89CD31BB2375827A002D4479 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
 		CE495DF1235B05D4005BE93A /* VK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE495DF4235B05D4005BE93A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE495DF6235B05D4005BE93A /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -42,6 +51,7 @@
 		CEAB268B23646C16008F24BA /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		CEAB268D23647831008F24BA /* PhotosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosController.swift; sourceTree = "<group>"; };
 		CEAB268F23647887008F24BA /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		CEAB269C2377456B008F24BA /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +113,8 @@
 				CEAB268123645365008F24BA /* GroupCell.swift */,
 				CEAB268923646B1E008F24BA /* FriendCell.swift */,
 				CEAB268F23647887008F24BA /* PhotoCell.swift */,
+				89CD31B523745AFB002D4479 /* AvatarView.swift */,
+				89CD31BB2375827A002D4479 /* LikeControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -112,6 +124,7 @@
 			children = (
 				CEAB2683236458A1008F24BA /* Group.swift */,
 				CEAB268B23646C16008F24BA /* Friend.swift */,
+				CEAB269C2377456B008F24BA /* Photo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -130,6 +143,8 @@
 			isa = PBXGroup;
 			children = (
 				89CD31AA2363033D002D4479 /* UIViewController+Ext.swift */,
+				89CD31B723758067002D4479 /* UIBezierPath+ext.swift */,
+				89CD31B9237580A2002D4479 /* Int+ext.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -207,11 +222,16 @@
 			files = (
 				CEAB2684236458A1008F24BA /* Group.swift in Sources */,
 				CEAB268823646AD9008F24BA /* FriendsController.swift in Sources */,
+				89CD31BC2375827A002D4479 /* LikeControl.swift in Sources */,
 				CE495DF7235B05D4005BE93A /* LoginController.swift in Sources */,
 				CEAB268E23647831008F24BA /* PhotosController.swift in Sources */,
+				89CD31B623745AFB002D4479 /* AvatarView.swift in Sources */,
 				CEAB269023647887008F24BA /* PhotoCell.swift in Sources */,
 				CEAB267E23644E39008F24BA /* MyGroupsController.swift in Sources */,
+				89CD31B823758067002D4479 /* UIBezierPath+ext.swift in Sources */,
 				CEAB268A23646B1E008F24BA /* FriendCell.swift in Sources */,
+				CEAB269D2377456B008F24BA /* Photo.swift in Sources */,
+				89CD31BA237580A2002D4479 /* Int+ext.swift in Sources */,
 				CEAB268223645365008F24BA /* GroupCell.swift in Sources */,
 				89CD31AB2363033D002D4479 /* UIViewController+Ext.swift in Sources */,
 				CEAB268C23646C16008F24BA /* Friend.swift in Sources */,

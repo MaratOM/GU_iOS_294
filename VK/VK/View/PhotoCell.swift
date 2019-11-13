@@ -10,5 +10,11 @@ import UIKit
 
 class PhotoCell: UICollectionViewCell {
     @IBOutlet var photoImageView: UIImageView!
+    @IBOutlet var likeControl: LikeControl!
     
+    // MARK - Public API
+    public func configureLikeControl(likes count: Int, isLikedByUser: Bool) {
+        likeControl.configure(likes: count, isLikedByUser: isLikedByUser)
+    }
+
 }
