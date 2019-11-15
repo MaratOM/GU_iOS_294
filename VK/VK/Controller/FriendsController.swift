@@ -28,7 +28,7 @@ class FriendsController: UITableViewController {
             Friend(id: "2", image: UIImage(named: "2")!, name: "Chris Cornell", photos: createFriendPhotos(imageName: "2")),
             Friend(id: "3", image: UIImage(named: "3")!, name: "Jim Morrison", photos: createFriendPhotos(imageName: "3")),
             Friend(id: "4", image: UIImage(named: "4")!, name: "Nick Cave", photos: createFriendPhotos(imageName: "4")),
-            Friend(id: "5", image: UIImage(named: "5")!, name: "Jimi Hendrix", photos: createFriendPhotos(imageName: "5")),
+            Friend(id: "5", image: UIImage(named: "5")!, name: "Jimi Hendrix", photos: createFriendPhotos(imageName: "5"))
         ]
         
         friends = allFriends

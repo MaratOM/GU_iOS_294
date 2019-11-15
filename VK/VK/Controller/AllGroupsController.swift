@@ -61,7 +61,6 @@ extension AllGroupsController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
-        
 }
 
 extension AllGroupsController: UISearchBarDelegate {
