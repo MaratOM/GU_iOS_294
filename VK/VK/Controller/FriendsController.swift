@@ -92,7 +92,8 @@ class FriendsController: UITableViewController {
         var photos = [Photo]()
         
         for _ in 4...10 {
-            photos.append(Photo(image: UIImage(named: imageName)!, isLiked: Bool.random(), likesCount: Int.random(in: 10...100)))
+            //random images to watch them swiping in BigPhotoController
+            photos.append(Photo(image: UIImage(named: String(Int.random(in: 1...5)))!, isLiked: Bool.random(), likesCount: Int.random(in: 10...100)))
         }
         
         return photos

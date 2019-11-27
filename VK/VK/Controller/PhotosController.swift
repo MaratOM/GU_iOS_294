@@ -47,5 +47,15 @@ class PhotosController: UICollectionViewController {
     
         return cell
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Show Big Photo",
+            let destinationVC = segue.destination as? BigPhotoController {
+            let indexPath = collectionView.indexPathsForSelectedItems?.first;
+            destinationVC.photos = friend!.photos
+            destinationVC.selectedPhotoIndex = indexPath!.item
+            collectionView.deselectItem(at: indexPath!, animated: true)
+        }
+    }
 
 }
