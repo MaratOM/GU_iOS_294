@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DTv-7N-jTd">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -387,7 +387,7 @@
                                                 <constraint firstAttribute="width" constant="150" id="u1a-Og-B52"/>
                                             </constraints>
                                         </imageView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OY4-k4-QSR" userLabel="Like Control View" customClass="LikeControl" customModule="VK" customModuleProvider="target">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OY4-k4-QSR" userLabel="Like Control View" customClass="LikeControlPath" customModule="VK" customModuleProvider="target">
                                             <rect key="frame" x="140" y="140" width="30" height="30"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -524,37 +524,49 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="L0Y-EC-yx9">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" image="hea" translatesAutoresizingMaskIntoConstraints="NO" id="L0Y-EC-yx9">
                                                     <rect key="frame" x="0.0" y="30" width="414" height="168"/>
                                                     <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.0"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" priority="999" constant="200" id="xwe-Cq-2JQ"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWM-Gi-vf2" userLabel="Bottom Label">
-                                                    <rect key="frame" x="0.0" y="198" width="414" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZQ-aG-4B1">
+                                                    <rect key="frame" x="330" y="200" width="42" height="26"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="5Y7-0S-WQh"/>
+                                                        <constraint firstAttribute="height" constant="26" id="5F7-lg-7ah"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" translatesAutoresizingMaskIntoConstraints="NO" id="ebL-Pk-9xW" userLabel="Like Image View">
+                                                    <rect key="frame" x="380" y="200" width="26" height="26"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="26" id="0vi-YK-AOS"/>
+                                                        <constraint firstAttribute="width" secondItem="ebL-Pk-9xW" secondAttribute="height" multiplier="1:1" id="w0q-UJ-1Mg"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="HZQ-aG-4B1" firstAttribute="top" secondItem="L0Y-EC-yx9" secondAttribute="bottom" constant="2" id="3hV-W1-5Kt"/>
                                                 <constraint firstItem="vqN-cp-rEh" firstAttribute="top" secondItem="3W2-Sa-h82" secondAttribute="top" id="4pX-nK-3WW"/>
-                                                <constraint firstItem="dWM-Gi-vf2" firstAttribute="top" secondItem="L0Y-EC-yx9" secondAttribute="bottom" id="7ex-JJ-s42"/>
                                                 <constraint firstItem="L0Y-EC-yx9" firstAttribute="leading" secondItem="3W2-Sa-h82" secondAttribute="leading" id="81C-B2-f1M"/>
-                                                <constraint firstItem="dWM-Gi-vf2" firstAttribute="leading" secondItem="3W2-Sa-h82" secondAttribute="leading" id="KNL-Zl-XT3"/>
-                                                <constraint firstAttribute="bottom" secondItem="dWM-Gi-vf2" secondAttribute="bottom" id="NVB-fi-2bJ"/>
                                                 <constraint firstAttribute="trailing" secondItem="vqN-cp-rEh" secondAttribute="trailing" id="R60-Yl-2EP"/>
+                                                <constraint firstItem="HZQ-aG-4B1" firstAttribute="leading" secondItem="3W2-Sa-h82" secondAttribute="leading" priority="999" constant="330" id="Rou-ba-MLq"/>
+                                                <constraint firstAttribute="bottom" secondItem="ebL-Pk-9xW" secondAttribute="bottom" constant="2" id="TGU-U3-WE5"/>
                                                 <constraint firstAttribute="trailing" secondItem="L0Y-EC-yx9" secondAttribute="trailing" id="VYV-Wj-0M3"/>
                                                 <constraint firstItem="vqN-cp-rEh" firstAttribute="leading" secondItem="3W2-Sa-h82" secondAttribute="leading" id="YV5-HX-IXz"/>
+                                                <constraint firstAttribute="bottom" secondItem="HZQ-aG-4B1" secondAttribute="bottom" constant="2" id="cBE-NS-Aa5"/>
+                                                <constraint firstAttribute="trailing" secondItem="ebL-Pk-9xW" secondAttribute="trailing" constant="8" id="pED-VH-SMV"/>
                                                 <constraint firstItem="L0Y-EC-yx9" firstAttribute="top" secondItem="vqN-cp-rEh" secondAttribute="bottom" id="q5i-iN-eh3"/>
-                                                <constraint firstAttribute="trailing" secondItem="dWM-Gi-vf2" secondAttribute="trailing" id="zVU-nT-Qti"/>
+                                                <constraint firstItem="ebL-Pk-9xW" firstAttribute="leading" secondItem="HZQ-aG-4B1" secondAttribute="trailing" constant="8" id="u8o-JC-FJX"/>
+                                                <constraint firstItem="ebL-Pk-9xW" firstAttribute="top" secondItem="L0Y-EC-yx9" secondAttribute="bottom" constant="2" id="zfi-Rm-fqc"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="likeCountLabel" destination="HZQ-aG-4B1" id="E0P-C6-NRc"/>
+                                            <outlet property="likeImageView" destination="ebL-Pk-9xW" id="2Xe-T0-Uts"/>
                                             <outlet property="newsImageView" destination="L0Y-EC-yx9" id="uOv-n7-RRs"/>
                                             <outlet property="newsTitleLabel" destination="vqN-cp-rEh" id="IDs-dQ-BUi"/>
                                         </connections>
@@ -622,6 +634,8 @@
     <resources>
         <image name="UKFlag" width="1024" height="1024"/>
         <image name="globe" catalog="system" width="64" height="60"/>
+        <image name="hea" width="16" height="16"/>
+        <image name="heart" width="16" height="16"/>
         <image name="person" catalog="system" width="64" height="58"/>
         <image name="person.2" catalog="system" width="64" height="40"/>
         <image name="vk_bg" width="66.666664123535156" height="66.666664123535156"/>
