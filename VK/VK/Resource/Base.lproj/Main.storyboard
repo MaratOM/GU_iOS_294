@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DTv-7N-jTd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="euS-GZ-ENG">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -114,6 +114,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2393" y="1053"/>
+        </scene>
+        <!--Login Controller-->
+        <scene sceneID="QwL-6L-Woq">
+            <objects>
+                <viewController id="euS-GZ-ENG" customClass="VKLoginController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZVv-aP-tFr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9S0-4i-mOa">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="9S0-4i-mOa" firstAttribute="top" secondItem="4nx-KH-fuW" secondAttribute="top" id="OVi-oP-A2N"/>
+                            <constraint firstItem="9S0-4i-mOa" firstAttribute="leading" secondItem="4nx-KH-fuW" secondAttribute="leading" id="Vd4-rp-iEO"/>
+                            <constraint firstItem="4nx-KH-fuW" firstAttribute="bottom" secondItem="9S0-4i-mOa" secondAttribute="bottom" id="XJb-ho-z2z"/>
+                            <constraint firstItem="4nx-KH-fuW" firstAttribute="trailing" secondItem="9S0-4i-mOa" secondAttribute="trailing" id="b9S-EP-8Kh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4nx-KH-fuW"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="9S0-4i-mOa" id="OzU-dc-Dzm"/>
+                        <segue destination="U1L-KB-JiW" kind="show" identifier="Run the App" id="c4s-Od-1cg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nYQ-42-3Xf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2386" y="1719"/>
         </scene>
         <!--My Groups Controller-->
         <scene sceneID="kO0-Ob-bjo">
@@ -640,4 +675,7 @@
         <image name="person.2" catalog="system" width="64" height="40"/>
         <image name="vk_bg" width="66.666664123535156" height="66.666664123535156"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="c4s-Od-1cg"/>
+    </inferredMetricsTieBreakers>
 </document>

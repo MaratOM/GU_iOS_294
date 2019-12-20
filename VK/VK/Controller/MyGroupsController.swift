@@ -27,7 +27,15 @@ class MyGroupsController: UITableViewController {
         super.viewDidLoad()
                 
         self.tableView.backgroundView = getBackgroundImage()
+        
+//        NetworkService.loadGroups(callback: getVKData)
+        
         filteredGroups = groups
+    }
+    
+    func getVKData (_ json: String) {
+        print(#function)
+        print(json)
     }
     
     
