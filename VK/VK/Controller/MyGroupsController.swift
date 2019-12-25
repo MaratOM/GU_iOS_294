@@ -32,7 +32,7 @@ class MyGroupsController: UITableViewController {
             
             switch result {
             case let .success(groups):
-                self.filteredGroups = groups
+                self.filteredGroups = groups as! [Group]
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
