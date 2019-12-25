@@ -77,8 +77,8 @@ extension KingfisherWrapper where Base: WKInterfaceImage {
             options.onDataReceived = (options.onDataReceived ?? []) + [ImageLoadingProgressSideEffect(block)]
         }
         
-        if let provider = ImageProgressiveProvider(options, refresh: { image in
-            self.base.setImage(image)
+        if let provider = ImageProgressiveProvider(options, refresh: { imageURL in
+            self.base.setImage(imageURL)
         }) {
             options.onDataReceived = (options.onDataReceived ?? []) + [provider]
         }
@@ -111,12 +111,12 @@ extension KingfisherWrapper where Base: WKInterfaceImage {
                     
                     switch result {
                     case .success(let value):
-                        self.base.setImage(value.image)
+                        self.base.setImage(value.imageURL)
                         completionHandler?(result)
                         
                     case .failure:
-                        if let image = options.onFailureImage {
-                            self.base.setImage(image)
+                        if let imageURL = options.onFailureImage {
+                            self.base.setImage(imageURL)
                         }
                         completionHandler?(result)
                     }

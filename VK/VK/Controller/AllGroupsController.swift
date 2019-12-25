@@ -23,14 +23,14 @@ class AllGroupsController: UIViewController {
         }
     }
     
-    let allGroups = [
-        Group(image: UIImage(named: "UKFlag")!, title: "American English lessons"),
-        Group(image: UIImage(named: "UKFlag")!, title: "UK English lessons"),
-        Group(image: UIImage(named: "UKFlag")!, title: "English with native speaker"),
-        Group(image: UIImage(named: "UKFlag")!, title: "English books club"),
-        Group(image: UIImage(named: "UKFlag")!, title: "English games club"),
-        Group(image: UIImage(named: "UKFlag")!,title: "English speaking club"),
-        Group(image: UIImage(named: "UKFlag")!,title: "English movie club")
+    let allGroups: [Group] = [
+//        Group(image: UIImage(named: "UKFlag")!, title: "American English lessons"),
+//        Group(image: UIImage(named: "UKFlag")!, title: "UK English lessons"),
+//        Group(image: UIImage(named: "UKFlag")!, title: "English with native speaker"),
+//        Group(image: UIImage(named: "UKFlag")!, title: "English books club"),
+//        Group(image: UIImage(named: "UKFlag")!, title: "English games club"),
+//        Group(image: UIImage(named: "UKFlag")!,title: "English speaking club"),
+//        Group(image: UIImage(named: "UKFlag")!,title: "English movie club")
     ]
     
     var groups = [Group]()
@@ -57,7 +57,7 @@ extension AllGroupsController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.textColor = UIColor.white
         
         cell.textLabel?.text = groups[indexPath.row].title
-        cell.imageView?.image = groups[indexPath.row].image
+//        cell.imageView? = groups[indexPath.row].image!
         
         return cell
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class NetworkService {
     static let session: Alamofire.Session = {
@@ -17,7 +18,7 @@ class NetworkService {
         return session
     }()
     
-    static func loadGroups(callback: @escaping(_ json: String)->()) {
+    public func loadGroups(complition: @escaping (Result<[Group], Error>) -> Void) {
         let baseUrl = "https://api.vk.com"
         let path = "/method/groups.get"
         
@@ -28,17 +29,15 @@ class NetworkService {
         ]
         
         NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in
-            switch response.result {
-            case let .success(data):
-                guard let data = data else {
-                    return
-                }
-            case let .failure(error):
-                print(error)
+                switch response.result {
+                case let .success(data):
+                    let json = JSON(data)
+                    let groupsJSON = json["response"]["items"].arrayValue
+                    let groups = groupsJSON.map{ Group(from: $0)}
+                    complition(.success(groups))
+                case let .failure(error):
+                    complition(.failure(error))
             }
-            guard let json = response.value else { return }
-//            callback(json as! String)
-            print(json)
         }
     }
 }

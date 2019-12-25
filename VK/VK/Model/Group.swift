@@ -6,20 +6,17 @@
 //  Copyright © 2019 maratom. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import SwiftyJSON
 
 class Group {
-    let image: UIImage?
+    let id: Int
+    let imageURL: String
     let title: String
     
-    init(image: UIImage, title: String) {
-        self.image = image
-        self.title = title
+    init(from json: JSON) {
+        self.id = json["id"].intValue
+        self.title = json["name"].stringValue
+        self.imageURL = json["photo_100"].stringValue
     }
-    
-    init(title: String) {
-        self.title = title
-        self.image = nil
-    }
-    
 }

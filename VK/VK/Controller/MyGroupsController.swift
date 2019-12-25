@@ -16,10 +16,9 @@ class MyGroupsController: UITableViewController {
         }
     }
     
-    var groups = [
-        Group(image: UIImage(named: "UKFlag")!,title: "English lessons"),
-        Group(image: UIImage(named: "UKFlag")!,title: "English meetings")
-    ]
+    var networkService = NetworkService()
+    
+    var groups = [Group]()
     
     var filteredGroups = [Group]()
     
@@ -28,14 +27,19 @@ class MyGroupsController: UITableViewController {
                 
         self.tableView.backgroundView = getBackgroundImage()
         
-//        NetworkService.loadGroups(callback: getVKData)
-        
-        filteredGroups = groups
-    }
-    
-    func getVKData (_ json: String) {
-        print(#function)
-        print(json)
+        networkService.loadGroups() { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case let .success(groups):
+                self.filteredGroups = groups
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
     
     
@@ -53,13 +57,8 @@ class MyGroupsController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupCell else {
             preconditionFailure("Cell can not be dequeued")
         }
-        
-        cell.backgroundColor = .clear
-        cell.selectedBackgroundView = UIView()
-        cell.groupTitleLabel?.textColor = UIColor.white
-        
-        cell.groupTitleLabel?.text = filteredGroups[indexPath.row].title
-        cell.groupImageView?.image = filteredGroups[indexPath.row].image
+
+        cell.configure(with: filteredGroups[indexPath.row])
                         
         return cell
     }
