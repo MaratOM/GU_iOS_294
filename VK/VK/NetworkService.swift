@@ -61,7 +61,7 @@ class NetworkService {
                     case .groups:
                         list = listJSON.map{ Group(from: $0)}
                     case .friends:
-                        list = listJSON.map{ Group(from: $0)}
+                        list = listJSON.map{ Friend(from: $0)}
                     }
                     complition(.success(list))
                 case let .failure(error):

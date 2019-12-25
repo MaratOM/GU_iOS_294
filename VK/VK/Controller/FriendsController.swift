@@ -16,6 +16,7 @@ class FriendsController: UITableViewController {
         }
     }
     
+    var networkService = NetworkService()
     var allFriends = [Friend]()
     var friends = [Friend]()
     var friendsDict = [Character: [Friend]]()
@@ -23,18 +24,23 @@ class FriendsController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        allFriends = [
-            Friend(id: "1", image: UIImage(named: "1")!, name: "Jack White", photos: createFriendPhotos(imageName: "1")),
-            Friend(id: "2", image: UIImage(named: "2")!, name: "Chris Cornell", photos: createFriendPhotos(imageName: "2")),
-            Friend(id: "3", image: UIImage(named: "3")!, name: "Jim Morrison", photos: createFriendPhotos(imageName: "3")),
-            Friend(id: "4", image: UIImage(named: "4")!, name: "Nick Cave", photos: createFriendPhotos(imageName: "4")),
-            Friend(id: "5", image: UIImage(named: "5")!, name: "Jimi Hendrix", photos: createFriendPhotos(imageName: "5"))
-        ]
-        
-        friends = allFriends
-        friendsDict = sort(friends: friends)
-
         self.tableView.backgroundView = getBackgroundImage();
+        
+        networkService.loadFriends() { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case let .success(friends):
+                self.allFriends = friends as! [Friend]
+                self.friends = self.allFriends
+                self.friendsDict = self.sort(friends: friends as! [Friend])
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
 
     // MARK: - Table view data source
@@ -70,12 +76,7 @@ class FriendsController: UITableViewController {
         let char = friendsDict.keys.sorted()[indexPath.section]
         let friend = friendsDict[char]![indexPath.row]
         
-        cell.backgroundColor = .clear
-        cell.selectedBackgroundView = UIView()
-        cell.friendNameLabel?.textColor = UIColor.white
-        
-        cell.friendImageView.image = friend.image
-        cell.friendNameLabel.text = friend.name
+        cell.configure(with: friend)
 
         return cell
     }

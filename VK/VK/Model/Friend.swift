@@ -7,17 +7,18 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class Friend {
-    let id: String
-    let image: UIImage
+    let id: Int
+    let imageURL: String
     let name: String
     let photos: [Photo]
     
-    init(id: String, image: UIImage, name: String, photos: [Photo] = []) {
-        self.id = id
-        self.image = image
-        self.name = name
-        self.photos = photos
+    init(from json: JSON) {
+        self.id = json["id"].intValue
+        self.name = json["first_name"].stringValue + " " + json["last_name"].stringValue
+        self.imageURL = json["photo_100"].stringValue
+        self.photos = []
     }
 }

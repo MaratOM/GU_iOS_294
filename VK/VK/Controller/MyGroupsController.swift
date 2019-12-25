@@ -17,9 +17,7 @@ class MyGroupsController: UITableViewController {
     }
     
     var networkService = NetworkService()
-    
     var groups = [Group]()
-    
     var filteredGroups = [Group]()
     
     override func viewDidLoad() {
@@ -32,7 +30,8 @@ class MyGroupsController: UITableViewController {
             
             switch result {
             case let .success(groups):
-                self.filteredGroups = groups as! [Group]
+                self.groups = groups as! [Group]
+                self.filteredGroups = self.groups
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
