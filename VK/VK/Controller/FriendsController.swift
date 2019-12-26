@@ -16,10 +16,10 @@ class FriendsController: UITableViewController {
         }
     }
     
-    var networkService = NetworkService()
-    var allFriends = [Friend]()
-    var friends = [Friend]()
-    var friendsDict = [Character: [Friend]]()
+    private var networkService = NetworkService()
+    private var allFriends = [Friend]()
+    private var friends = [Friend]()
+    private var friendsDict = [Character: [Friend]]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,22 +84,13 @@ class FriendsController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show Friend Photos",
             let destinationVC = segue.destination as? PhotosController {
-            let indexPath = tableView.indexPathForSelectedRow;
-            destinationVC.friend = friends[indexPath!.row]
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let char = friendsDict.keys.sorted()[indexPath.section]
+            let friend = friendsDict[char]![indexPath.row]
+            destinationVC.friend = friend
         }
     }
-    
-    func createFriendPhotos(imageName: String) -> [Photo] {
-        var photos = [Photo]()
-        
-        for _ in 4...10 {
-            //random images to watch them swiping in BigPhotoController
-            photos.append(Photo(image: UIImage(named: String(Int.random(in: 1...5)))!, isLiked: Bool.random(), likesCount: Int.random(in: 10...100)))
-        }
-        
-        return photos
-    }
-    
+
     private func sort(friends: [Friend]) -> [Character: [Friend]]{
         var friendsDict = [Character: [Friend]]()
         
@@ -115,7 +106,6 @@ class FriendsController: UITableViewController {
         
         return friendsDict
     }
-
 }
 
 extension FriendsController: UISearchBarDelegate {

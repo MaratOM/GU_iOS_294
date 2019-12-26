@@ -7,15 +7,26 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class Photo {
-    var image: UIImage
+    var id: Int
+    var imageURL: String
     var isLiked: Bool
     var likesCount: Int
     
-    init(image: UIImage, isLiked: Bool, likesCount: Int) {
-        self.image = image
-        self.isLiked = isLiked
-        self.likesCount = likesCount
+    init(from json: JSON) {
+        self.id = json["id"].intValue
+        // remove lets
+//        let imageSizes = json["sizes"].arrayValue
+//        let wSizeImage = imageSizes.filter{ $0["type"] == "m" }.first
+//        self.imageURL = wSizeImage!["url"].stringValue
+        
+        self.imageURL = json["sizes"].arrayValue
+            .filter{ $0["type"] == "m" }
+            .first!["url"].stringValue
+        
+        self.isLiked = json["likes"]["user_likes"].intValue > 0 ? true : false
+        self.likesCount = json["likes"]["count"].intValue
     }
 }

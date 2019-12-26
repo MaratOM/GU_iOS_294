@@ -19,8 +19,9 @@ class NetworkService {
     }()
     
     private enum dataModel {
-        case groups
-        case friends
+        case group
+        case friend
+        case photo
     }
     
     private let baseUrl = "https://api.vk.com"
@@ -31,7 +32,7 @@ class NetworkService {
     public func loadGroups(complition: @escaping (Result<[Any], Error>) -> Void) {
         let path = "/method/groups.get"
         
-        self.loadData(model: .groups, path: path, methodParams: [:], complition: complition)
+        self.loadData(model: .group, path: path, methodParams: [:], complition: complition)
     }
     
     public func loadFriends(complition: @escaping (Result<[Any], Error>) -> Void) {
@@ -40,7 +41,16 @@ class NetworkService {
             "fields": "photo_100",
         ]
         
-        self.loadData(model: .friends, path: path, methodParams: params, complition: complition)
+        self.loadData(model: .friend, path: path, methodParams: params, complition: complition)
+    }
+    
+    public func loadPhotos(ownerId: Int, complition: @escaping (Result<[Any], Error>) -> Void) {
+        let path = "/method/photos.getAll"
+        let params: Parameters = [
+            "owner_id": ownerId,
+        ]
+        
+        self.loadData(model: .photo, path: path, methodParams: params, complition: complition)
     }
     
     private func loadData(model: dataModel, path: String, methodParams: Parameters, complition: @escaping (Result<[Any], Error>) -> Void) {
@@ -56,12 +66,18 @@ class NetworkService {
                 switch response.result {
                 case let .success(data):
                     let listJSON = JSON(data)["response"]["items"].arrayValue
-                    var list: Array<Any>
+                    var list = Array<Any>()
                     switch model {
-                    case .groups:
-                        list = listJSON.map{ Group(from: $0)}
-                    case .friends:
-                        list = listJSON.map{ Friend(from: $0)}
+                    case .group:
+                        list = listJSON.map { Group(from: $0) }
+                    case .friend:
+                        listJSON.forEach {
+                            if($0["first_name"].stringValue != "DELETED") {
+                                list.append(Friend(from: $0))
+                            }
+                        }
+                    case .photo:
+                        list = listJSON.map { Photo(from: $0) }
                     }
                     complition(.success(list))
                 case let .failure(error):

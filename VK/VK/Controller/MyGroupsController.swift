@@ -16,9 +16,9 @@ class MyGroupsController: UITableViewController {
         }
     }
     
-    var networkService = NetworkService()
-    var groups = [Group]()
-    var filteredGroups = [Group]()
+    private var networkService = NetworkService()
+    private var groups = [Group]()
+    private var filteredGroups = [Group]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

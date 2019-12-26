@@ -7,14 +7,19 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PhotoCell: UICollectionViewCell {
     @IBOutlet var photoImageView: UIImageView!
     @IBOutlet var likeControl: LikeControlPath!
     
     // MARK - Public API
-    public func configureLikeControl(likes count: Int, isLikedByUser: Bool) {
-        likeControl.configure(likes: count, isLikedByUser: isLikedByUser)
+    public func configure(with photo: Photo) {
+        self.backgroundColor = .clear
+        self.selectedBackgroundView = UIView()
+        print(photo.imageURL)
+        photoImageView.kf.setImage(with: URL(string: photo.imageURL))
+        
+        likeControl.configure(likes: photo.likesCount, isLikedByUser: photo.isLiked)
     }
-
 }
