@@ -17,7 +17,6 @@ class PhotoCell: UICollectionViewCell {
     public func configure(with photo: Photo) {
         self.backgroundColor = .clear
         self.selectedBackgroundView = UIView()
-        print(photo.imageURL)
         photoImageView.kf.setImage(with: URL(string: photo.imageURL))
         
         likeControl.configure(likes: photo.likesCount, isLikedByUser: photo.isLiked)

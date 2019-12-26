@@ -28,7 +28,6 @@ class PhotosController: UICollectionViewController {
             switch result {
             case let .success(photos):
                 self.photos = photos as! [Photo]
-                print(self.photos.first!.imageURL)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -63,7 +62,7 @@ class PhotosController: UICollectionViewController {
         if segue.identifier == "Show Big Photo",
             let destinationVC = segue.destination as? BigPhotoController {
             let indexPath = collectionView.indexPathsForSelectedItems?.first;
-            destinationVC.photos = friend!.photos
+            destinationVC.photos = photos
             destinationVC.selectedPhotoIndex = indexPath!.item
             collectionView.deselectItem(at: indexPath!, animated: true)
         }
