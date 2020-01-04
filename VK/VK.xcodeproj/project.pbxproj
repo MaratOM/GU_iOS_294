@@ -11,6 +11,8 @@
 		893B69CA239E84C30030DB9A /* VKLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893B69C9239E84C30030DB9A /* VKLoginController.swift */; };
 		893B69CD239E87810030DB9A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893B69CB239E87810030DB9A /* Session.swift */; };
 		893B69D0239E88210030DB9A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893B69CF239E88210030DB9A /* NetworkService.swift */; };
+		898E29AF23BA3C9C00353329 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E29AE23BA3C9C00353329 /* Update.swift */; };
+		898E29B123BE644F00353329 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E29B023BE644F00353329 /* RealmService.swift */; };
 		89CD31AB2363033D002D4479 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31AA2363033D002D4479 /* UIViewController+Ext.swift */; };
 		89CD31B623745AFB002D4479 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31B523745AFB002D4479 /* AvatarView.swift */; };
 		89CD31B823758067002D4479 /* UIBezierPath+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD31B723758067002D4479 /* UIBezierPath+ext.swift */; };
@@ -46,6 +48,8 @@
 		893B69C9239E84C30030DB9A /* VKLoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKLoginController.swift; sourceTree = "<group>"; };
 		893B69CB239E87810030DB9A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		893B69CF239E88210030DB9A /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		898E29AE23BA3C9C00353329 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
+		898E29B023BE644F00353329 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		89CD31AA2363033D002D4479 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		89CD31B523745AFB002D4479 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		89CD31B723758067002D4479 /* UIBezierPath+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+ext.swift"; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 				CEAB269323647EBB008F24BA /* Model */,
 				CE495E00235B05D7005BE93A /* Info.plist */,
 				CEAB269523647F1E008F24BA /* Helper */,
+				898E29B023BE644F00353329 /* RealmService.swift */,
 			);
 			path = VK;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 				CEAB268B23646C16008F24BA /* Friend.swift */,
 				CEAB269C2377456B008F24BA /* Photo.swift */,
 				89CD31C1237D9947002D4479 /* News.swift */,
+				898E29AE23BA3C9C00353329 /* Update.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -327,6 +333,7 @@
 				89CD31C0237D9699002D4479 /* NewsController.swift in Sources */,
 				893B69CD239E87810030DB9A /* Session.swift in Sources */,
 				CEAB269023647887008F24BA /* PhotoCell.swift in Sources */,
+				898E29AF23BA3C9C00353329 /* Update.swift in Sources */,
 				CEAB267E23644E39008F24BA /* MyGroupsController.swift in Sources */,
 				89CD31B823758067002D4479 /* UIBezierPath+ext.swift in Sources */,
 				CEAB268A23646B1E008F24BA /* FriendCell.swift in Sources */,
@@ -337,6 +344,7 @@
 				CEAB268223645365008F24BA /* GroupCell.swift in Sources */,
 				89CD31AB2363033D002D4479 /* UIViewController+Ext.swift in Sources */,
 				CEAB268C23646C16008F24BA /* Friend.swift in Sources */,
+				898E29B123BE644F00353329 /* RealmService.swift in Sources */,
 				CEAB2686236460D3008F24BA /* AllGroupsController.swift in Sources */,
 				CE495DF5235B05D4005BE93A /* AppDelegate.swift in Sources */,
 				893B69D0239E88210030DB9A /* NetworkService.swift in Sources */,

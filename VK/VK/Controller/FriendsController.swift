@@ -26,21 +26,21 @@ class FriendsController: UITableViewController {
         
         self.tableView.backgroundView = getBackgroundImage();
         
-        networkService.loadFriends() { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case let .success(friends):
-                self.allFriends = friends as! [Friend]
-                self.friends = self.allFriends
-                self.friendsDict = self.sort(friends: friends as! [Friend])
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            case let .failure(error):
-                print(error)
-            }
-        }
+//        networkService.loadFriends() { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case let .success(friends):
+//                self.allFriends = friends as! [Friend]
+//                self.friends = self.allFriends
+//                self.friendsDict = self.sort(friends: friends as! [Friend])
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//            case let .failure(error):
+//                print(error)
+//            }
+//        }
     }
 
     // MARK: - Table view data source

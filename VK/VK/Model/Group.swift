@@ -8,15 +8,26 @@
 
 import Foundation
 import SwiftyJSON
+import RealmSwift
 
-class Group {
-    let id: Int
-    let imageURL: String
-    let title: String
+class Group: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var imageURL: String = ""
+    @objc dynamic var title: String = ""
     
-    init(from json: JSON) {
+    convenience init(from json: JSON) {
+        self.init()
+        
         self.id = json["id"].intValue
         self.title = json["name"].stringValue
         self.imageURL = json["photo_100"].stringValue
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    override static func ignoredProperties() -> [String] {
+        return []
     }
 }

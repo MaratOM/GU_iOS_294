@@ -6,16 +6,19 @@
 //  Copyright © 2019 maratom. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import SwiftyJSON
+import RealmSwift
 
-class Friend {
-    let id: Int
-    let imageURL: String
-    let name: String
-    let photos: [Photo]
+class Friend: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var imageURL: String = ""
+    @objc dynamic var name: String = ""
+    var photos: [Photo] = []
     
-    init(from json: JSON) {
+    convenience init(from json: JSON) {
+        self.init()
+        
         self.id = json["id"].intValue
         self.name = json["first_name"].stringValue + " " + json["last_name"].stringValue
         self.imageURL = json["photo_100"].stringValue

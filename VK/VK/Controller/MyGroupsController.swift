@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MyGroupsController: UITableViewController {
     
@@ -18,27 +19,50 @@ class MyGroupsController: UITableViewController {
     
     private var networkService = NetworkService()
     private var groups = [Group]()
+    private var realmObjects:Results<Group> = try! Realm(configuration: RealmService.realmConfiguration).objects(Group.self)
     private var filteredGroups = [Group]()
+    private var notificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
         self.tableView.backgroundView = getBackgroundImage()
+                
+        guard let realm = try? Realm() else { fatalError() }
+        print(realm.configuration.fileURL ?? "")
         
-        networkService.loadGroups() { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case let .success(groups):
-                self.groups = groups as! [Group]
-                self.filteredGroups = self.groups
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+        if (realm.objects(Group.self).count > 0) {
+            networkService.loadGroups() { result in
+                switch result {
+                case let .success(groups):
+                    try? realm.write {
+                        realm.add(groups, update: .all)
+                    }
+                case let .failure(error):
+                    print(error)
                 }
-            case let .failure(error):
-                print(error)
             }
         }
+                    
+        self.notificationToken = realmObjects.observe({ [weak self] change in
+            guard let self = self else { return }
+            switch change {
+            case .initial:
+                break
+            case let .update(results, deletions, insertions, modifications):
+                self.tableView.reloadData()
+            case let .error(error):
+                print(error)
+            }
+        })
+        
+        self.groups = Array(realmObjects)
+        self.filteredGroups = self.groups
+        self.tableView.reloadData()
+    }
+    
+    deinit {
+        notificationToken?.invalidate()
     }
     
     
