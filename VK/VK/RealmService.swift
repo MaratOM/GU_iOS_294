@@ -10,24 +10,23 @@ import Foundation
 import RealmSwift
 
 class RealmService {
-    static let realmConfiguration = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+    var realm: Realm
+    let realmConfiguration = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+    let updateType: Realm.UpdatePolicy = .all
     
-    static func get<T: Object>(_ type: T.Type,
-        configuration: Realm.Configuration = realmConfiguration,
-        update: Realm.UpdatePolicy = .all) throws -> Results<T>{
-        let realm = try Realm(configuration: configuration)
+    init() {
+        self.realm = try! Realm(configuration: self.realmConfiguration)
+        
+        print(self.realmConfiguration.fileURL ?? "")
+    }
+    
+    func get<T: Object>(_ type: T.Type) throws -> Results<T>{
         return realm.objects(type)
     }
     
-    static func save<T: Object>(_ items: [T],
-        configuration: Realm.Configuration = realmConfiguration,
-        update: Realm.UpdatePolicy = .all) throws {
-        let realm = try Realm(configuration: configuration)
-        
-        print(configuration.fileURL ?? "")
-        
+    func save<T: Object>(_ items: [T]) throws {
         try realm.write {
-            realm.add(items, update: update)
+            realm.add(items, update: updateType)
         }
     }
 }

@@ -18,8 +18,9 @@ class MyGroupsController: UITableViewController {
     }
     
     private var networkService = NetworkService()
+    private var realmService = RealmService()
     private var groups = [Group]()
-    private var realmObjects:Results<Group> = try! RealmService.get(Group.self)
+    private var realmObjects: Results<Group>!
     private var filteredGroups = [Group]()
     private var notificationToken: NotificationToken?
     
@@ -27,6 +28,9 @@ class MyGroupsController: UITableViewController {
         super.viewDidLoad()
                 
         self.tableView.backgroundView = getBackgroundImage()
+        
+        realmObjects = try! realmService.get(Group.self)
+
                 
 //        guard let realm = try? Realm() else { fatalError() }
 //        try? realm.write {
@@ -37,13 +41,15 @@ class MyGroupsController: UITableViewController {
             networkService.loadGroups() { result in
                 switch result {
                 case let .success(groups):
-                    try! RealmService.save(groups)
-                    self.realmObjects = try! RealmService.get(Group.self)
+                    try! self.realmService.save(groups)
+                    self.realmObjects = try! self.realmService.get(Group.self)
                     self.initData()
                 case let .failure(error):
                     print(error)
                 }
             }
+        } else {
+            initData()
         }
                     
         self.notificationToken = realmObjects.observe({ [weak self] change in
@@ -57,8 +63,6 @@ class MyGroupsController: UITableViewController {
                 print(error)
             }
         })
-        
-        initData()
     }
     
     deinit {
