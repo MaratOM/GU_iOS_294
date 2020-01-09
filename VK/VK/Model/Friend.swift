@@ -22,6 +22,13 @@ class Friend: Object {
         self.id = json["id"].intValue
         self.name = json["first_name"].stringValue + " " + json["last_name"].stringValue
         self.imageURL = json["photo_100"].stringValue
-        self.photos = []
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    public func setPhotos(_ photos: [Photo]) {
+        self.photos = photos
     }
 }

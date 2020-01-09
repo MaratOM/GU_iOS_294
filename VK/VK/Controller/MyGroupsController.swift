@@ -19,7 +19,7 @@ class MyGroupsController: UITableViewController {
     
     private var networkService = NetworkService()
     private var groups = [Group]()
-    private var realmObjects:Results<Group> = try! Realm(configuration: RealmService.realmConfiguration).objects(Group.self)
+    private var realmObjects:Results<Group> = try! RealmService.get(Group.self)
     private var filteredGroups = [Group]()
     private var notificationToken: NotificationToken?
     
@@ -28,16 +28,18 @@ class MyGroupsController: UITableViewController {
                 
         self.tableView.backgroundView = getBackgroundImage()
                 
-        guard let realm = try? Realm() else { fatalError() }
-        print(realm.configuration.fileURL ?? "")
+//        guard let realm = try? Realm() else { fatalError() }
+//        try? realm.write {
+//            realm.deleteAll()
+//        }
         
-        if (realm.objects(Group.self).count > 0) {
+        if (realmObjects.count == 0) {
             networkService.loadGroups() { result in
                 switch result {
                 case let .success(groups):
-                    try? realm.write {
-                        realm.add(groups, update: .all)
-                    }
+                    try! RealmService.save(groups)
+                    self.realmObjects = try! RealmService.get(Group.self)
+                    self.initData()
                 case let .failure(error):
                     print(error)
                 }
@@ -56,13 +58,17 @@ class MyGroupsController: UITableViewController {
             }
         })
         
-        self.groups = Array(realmObjects)
-        self.filteredGroups = self.groups
-        self.tableView.reloadData()
+        initData()
     }
     
     deinit {
         notificationToken?.invalidate()
+    }
+    
+    private func initData() {
+        self.groups = Array(realmObjects)
+        self.filteredGroups = self.groups
+        self.tableView.reloadData()
     }
     
     

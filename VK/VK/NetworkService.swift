@@ -78,47 +78,12 @@ class NetworkService {
                             }
                         }
                     case .photo:
-//                        list = listJSON.map { Photo(from: $0) }
-                        list = listJSON.map { Group(from: $0) }
-
+                        list = listJSON.map { Photo(ownerId:params["owner_id"] as! Int,from: $0) }
                     }
                     complition(.success(list))
                 case let .failure(error):
                     complition(.failure(error))
             }
         }
-    }
-    
-    private func loadData_(model: dataModel, path: String, methodParams: Parameters, complition: @escaping (Result<[Any], Error>) -> Void) {
-        var params: Parameters = [
-            "access_token": accessToken,
-            "extended": 1,
-            "v": APIversion
-        ]
-                
-        params.merge(methodParams) { (_, new) in new }
-        
-        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in
-                switch response.result {
-                case let .success(data):
-                    let listJSON = JSON(data)["response"]["items"].arrayValue
-                    var list = Array<Any>()
-                    switch model {
-                    case .group:
-                        list = listJSON.map { Group(from: $0) }
-                    case .friend:
-                        listJSON.forEach {
-                            if($0["first_name"].stringValue != "DELETED") {
-                                list.append(Friend(from: $0))
-                            }
-                        }
-                    case .photo:
-                        list = listJSON.map { Photo(from: $0) }
-                    }
-                    complition(.success(list))
-                case let .failure(error):
-                    complition(.failure(error))
-            }
-        }
-    }
+    }    
 }

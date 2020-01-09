@@ -8,23 +8,27 @@
 
 import UIKit
 import SwiftyJSON
+import RealmSwift
 
-class Photo {
-    var id: Int
-    var imageURL: String
-    var bigImageURL: String
-    var isLiked: Bool
-    var likesCount: Int
+class Photo: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var ownerId: Int = 0
+    @objc dynamic var imageURL: String = ""
+    @objc dynamic var bigImageURL: String = ""
+    @objc dynamic var isLiked: Bool = false
+    @objc dynamic var likesCount: Int = 0
     
-    init(from json: JSON) {
+    convenience init(ownerId: Int, from json: JSON) {
+        self.init()
+        
         self.id = json["id"].intValue
+        self.ownerId = ownerId
         
         let allSizeImages = json["sizes"].arrayValue
         self.imageURL = allSizeImages
             .filter{ $0["type"].stringValue == "m" }
             .first!["url"].stringValue
 
-        
         let imageSizeTypes:[String] = allSizeImages.map{ $0["type"].stringValue }
         var bigImageSizeType = ""
         ["w", "z", "y", "x", "m"].forEach{
@@ -38,5 +42,9 @@ class Photo {
 
         self.isLiked = json["likes"]["user_likes"].intValue > 0 ? true : false
         self.likesCount = json["likes"]["count"].intValue
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
     }
 }
