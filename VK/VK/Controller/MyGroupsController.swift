@@ -22,27 +22,38 @@ class MyGroupsController: UITableViewController {
     private var groups = [Group]()
     private var realmObjects: Results<Group>!
     private var filteredGroups = [Group]()
+    
     private var notificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
         self.tableView.backgroundView = getBackgroundImage()
+    
+        guard let realm = try? Realm() else { fatalError() }
+        try? realm.write {
+            realm.deleteAll()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", "groups").first?.timeStamp
+        print("time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
         
         realmObjects = try! realmService.get(Group.self)
-
-                
-//        guard let realm = try? Realm() else { fatalError() }
-//        try? realm.write {
-//            realm.deleteAll()
-//        }
         
-        if (realmObjects.count == 0) {
+        if (realmObjects.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime!) > Update.interval) {
             networkService.loadGroups() { result in
                 switch result {
                 case let .success(groups):
+                    print("got from api")
+                    
                     try! self.realmService.save(groups)
                     self.realmObjects = try! self.realmService.get(Group.self)
+                    let updateTime = Update(dataType: "groups", timeStamp: NSDate().timeIntervalSince1970)
+                    try! self.realmService.save([updateTime])
                     self.initData()
                 case let .failure(error):
                     print(error)
@@ -51,13 +62,13 @@ class MyGroupsController: UITableViewController {
         } else {
             initData()
         }
-                    
+        
         self.notificationToken = realmObjects.observe({ [weak self] change in
             guard let self = self else { return }
             switch change {
             case .initial:
                 break
-            case let .update(results, deletions, insertions, modifications):
+            case .update:
                 self.tableView.reloadData()
             case let .error(error):
                 print(error)
@@ -65,7 +76,9 @@ class MyGroupsController: UITableViewController {
         })
     }
     
-    deinit {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
         notificationToken?.invalidate()
     }
     
