@@ -19,21 +19,21 @@ class MyGroupsController: UITableViewController {
     
     private var networkService = NetworkService()
     private var realmService = RealmService()
-    private var groups = [Group]()
-    private var realmObjects: Results<Group>!
-    private var filteredGroups = [Group]()
-    
     private var notificationToken: NotificationToken?
-    
+
+    private var realmObjects: Results<Group>!
+    private var groups = [Group]()
+    private var filteredGroups = [Group]()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
                 
         self.tableView.backgroundView = getBackgroundImage()
     
-        guard let realm = try? Realm() else { fatalError() }
-        try? realm.write {
-            realm.deleteAll()
-        }
+//        guard let realm = try? Realm() else { fatalError() }
+//        try? realm.write {
+//            realm.deleteAll()
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

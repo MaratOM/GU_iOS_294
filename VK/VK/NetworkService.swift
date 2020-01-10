@@ -36,6 +36,15 @@ class NetworkService {
         self.loadData(model: .group, path: path, methodParams: [:], complition: complition)
     }
     
+    public func searchGroups(q: String, complition: @escaping (Result<[Object], Error>) -> Void) {
+        let path = "/method/groups.search"
+        let params: Parameters = [
+            "q": q,
+        ]
+        
+        self.loadData(model: .group, path: path, methodParams: params, complition: complition)
+    }
+    
     public func loadFriends(complition: @escaping (Result<[Object], Error>) -> Void) {
         let path = "/method/friends.get"
         let params: Parameters = [
@@ -60,7 +69,7 @@ class NetworkService {
             "extended": 1,
             "v": APIversion
         ]
-                
+
         params.merge(methodParams) { (_, new) in new }
         
         NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in

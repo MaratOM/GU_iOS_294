@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class AllGroupsController: UIViewController {
 
@@ -20,28 +21,18 @@ class AllGroupsController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.delegate = self
+            searchBar.placeholder = "Введите данные для поиска"
         }
     }
     
-    let allGroups: [Group] = [
-//        Group(image: UIImage(named: "UKFlag")!, title: "American English lessons"),
-//        Group(image: UIImage(named: "UKFlag")!, title: "UK English lessons"),
-//        Group(image: UIImage(named: "UKFlag")!, title: "English with native speaker"),
-//        Group(image: UIImage(named: "UKFlag")!, title: "English books club"),
-//        Group(image: UIImage(named: "UKFlag")!, title: "English games club"),
-//        Group(image: UIImage(named: "UKFlag")!,title: "English speaking club"),
-//        Group(image: UIImage(named: "UKFlag")!,title: "English movie club")
-    ]
-    
-    var groups = [Group]()
+    private var networkService = NetworkService()
+    public var groups = [Group]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        groups = allGroups
         self.tableView.backgroundView = getBackgroundImage();
     }
-
 }
 
 extension AllGroupsController: UITableViewDataSource, UITableViewDelegate {
@@ -57,8 +48,8 @@ extension AllGroupsController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.textColor = UIColor.white
         
         cell.textLabel?.text = groups[indexPath.row].title
-//        cell.imageView? = groups[indexPath.row].image!
-        
+        cell.imageView?.kf.setImage(with: URL(string: groups[indexPath.row].imageURL))
+
         return cell
     }
 }
@@ -66,12 +57,17 @@ extension AllGroupsController: UITableViewDataSource, UITableViewDelegate {
 extension AllGroupsController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            groups = allGroups
+            groups = []
         } else {
-            groups = groups.filter({ $0.title.lowercased().contains(searchText.lowercased()) })
+            networkService.searchGroups(q: searchText) { result in
+                switch result {
+                case let .success(groups):
+                    self.groups = groups as! [Group]
+                    self.tableView.reloadData()
+                case let .failure(error):
+                    print(error)
+                }
+            }
         }
-        
-        tableView.reloadData()
-        print(searchText)
     }
 }
