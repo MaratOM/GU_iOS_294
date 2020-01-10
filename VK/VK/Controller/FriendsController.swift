@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FriendsController: UITableViewController {
     
@@ -17,6 +18,10 @@ class FriendsController: UITableViewController {
     }
     
     private var networkService = NetworkService()
+    private var realmService = RealmService()
+    private var notificationToken: NotificationToken?
+
+    private var realmObjects: Results<Friend>!
     private var allFriends = [Friend]()
     private var friends = [Friend]()
     private var friendsDict = [Character: [Friend]]()
@@ -25,22 +30,59 @@ class FriendsController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.backgroundView = getBackgroundImage();
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        networkService.loadFriends() { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case let .success(friends):
-                self.allFriends = friends as! [Friend]
-                self.friends = self.allFriends
-                self.friendsDict = self.sort(friends: friends as! [Friend])
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+        let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", "friends").first?.timeStamp
+        print("friends time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
+        
+        realmObjects = try! realmService.get(Friend.self)
+        
+        if (realmObjects.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime!) > Update.interval) {
+            networkService.loadFriends() { result in
+                switch result {
+                case let .success(friends):
+                    print("friends got from api")
+                    
+                    try! self.realmService.save(friends)
+                    self.realmObjects = try! self.realmService.get(Friend.self)
+                    let updateTime = Update(dataType: "friends", timeStamp: NSDate().timeIntervalSince1970)
+                    try! self.realmService.save([updateTime])
+                    self.initData()
+                case let .failure(error):
+                    print(error)
                 }
-            case let .failure(error):
+            }
+        } else {
+            initData()
+        }
+        
+        self.notificationToken = realmObjects.observe({ [weak self] change in
+            guard let self = self else { return }
+            switch change {
+            case .initial:
+                break
+            case .update:
+                self.tableView.reloadData()
+            case let .error(error):
                 print(error)
             }
-        }
+        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        notificationToken?.invalidate()
+    }
+    
+    private func initData() {
+        self.allFriends = Array(realmObjects)
+        self.friends = self.allFriends
+        self.friendsDict = self.sort(friends: friends)
+        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -118,6 +160,5 @@ extension FriendsController: UISearchBarDelegate {
         friendsDict = sort(friends: friends)
 
         tableView.reloadData()
-        print(searchText)
     }
 }

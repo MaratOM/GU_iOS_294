@@ -40,7 +40,7 @@ class MyGroupsController: UITableViewController {
         super.viewWillAppear(animated)
         
         let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", "groups").first?.timeStamp
-        print("time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
+        print("groups time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
         
         realmObjects = try! realmService.get(Group.self)
         
@@ -48,7 +48,7 @@ class MyGroupsController: UITableViewController {
             networkService.loadGroups() { result in
                 switch result {
                 case let .success(groups):
-                    print("got from api")
+                    print("groups got from api")
                     
                     try! self.realmService.save(groups)
                     self.realmObjects = try! self.realmService.get(Group.self)
