@@ -15,6 +15,8 @@ class NewsCell: UITableViewCell {
     @IBOutlet var likeImageView: UIImageView!
     @IBOutlet var likeCountLabel: UILabel!
     
+    private var networkService = NetworkService()
+
     let imageOnName = "heart.fill"
     let imageOffName = "heart"
     
@@ -43,6 +45,9 @@ class NewsCell: UITableViewCell {
         }
     }
     
+    var id = 1
+    var ownerId = 1
+    
     override func awakeFromNib() {
         super.awakeFromNib()
                 
@@ -67,6 +72,13 @@ class NewsCell: UITableViewCell {
         isLiked.toggle()
         setNeedsDisplay()
         
-        likesCount = isLiked ? likesCount + 1 : likesCount - 1
+        if isLiked {
+            likesCount += 1
+            networkService.addLike(type: "post", ownerId: self.ownerId, id: self.id)
+        } else {
+            likesCount -= 1
+            networkService.deleteLike(type: "post", ownerId: self.ownerId, id: self.id)
+        }
+
     }
 }

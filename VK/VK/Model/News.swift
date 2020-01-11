@@ -12,6 +12,7 @@ import RealmSwift
 
 class News: Object {
     @objc dynamic var id: Int = 0
+    @objc dynamic var ownerId: Int = 0
     @objc dynamic var imageURL: String = ""
     @objc dynamic var title: String = ""
     @objc dynamic var isLiked: Bool = false
@@ -21,6 +22,7 @@ class News: Object {
         self.init()
         
         self.id = json["id"].intValue
+        self.ownerId = json["owner_id"].intValue
         self.title = json["text"].stringValue
         
         let photos = json["attachments"].arrayValue.filter{ $0["type"] == "photo" }

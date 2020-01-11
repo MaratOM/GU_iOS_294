@@ -25,8 +25,8 @@ class VKLoginController: UIViewController {
         components.host = "oauth.vk.com"
         components.path = "/authorize"
         components.queryItems = [
-            URLQueryItem(name: "client_id", value: "6704883"),
-            URLQueryItem(name: "scope", value: "262150"),
+            URLQueryItem(name: "client_id", value: "7277877"),
+            URLQueryItem(name: "scope", value: "wall,friends,groups,photos"),
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "response_type", value: "token"),
@@ -43,7 +43,7 @@ extension VKLoginController: WKNavigationDelegate {
         guard let url = navigationResponse.response.url,
             url.path == "/blank.html",
             let fragment = url.fragment else { decisionHandler(.allow); return }
-        
+                
         let params = fragment
             .components(separatedBy: "&")
             .map { $0.components(separatedBy: "=") }
@@ -55,8 +55,6 @@ extension VKLoginController: WKNavigationDelegate {
                 return dict
         }
         
-//        print(params)
-        
         guard let token = params["access_token"],
             let userIdString = params["user_id"],
             let _ = Int(userIdString) else {
@@ -66,9 +64,7 @@ extension VKLoginController: WKNavigationDelegate {
         
         Session.shared.accessToken = token
         performSegue(withIdentifier: "Run the App", sender: nil)
-        
 
-        
         decisionHandler(.cancel)
     }
 }

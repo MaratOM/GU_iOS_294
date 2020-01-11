@@ -111,5 +111,34 @@ class NetworkService {
                     complition(.failure(error))
             }
         }
-    }    
+    }
+    
+    public func addLike(type: String, ownerId: Int, id: Int) {
+        let path = "/method/likes.add"
+
+        self.likeActionHandle(path: path, type: type, ownerId: ownerId, id: id)
+    }
+    
+    public func deleteLike(type: String, ownerId: Int, id: Int) {
+        let path = "/method/likes.delete"
+
+        self.likeActionHandle(path: path, type: type, ownerId: ownerId, id: id)
+    }
+    
+    private func likeActionHandle(path: String, type: String, ownerId: Int, id: Int) {
+        var params: Parameters = [
+            "access_token": accessToken,
+            "extended": 1,
+            "v": APIversion
+        ]
+        let methodParams: Parameters = [
+            "type": type,
+            "owner_id": String(ownerId),
+            "item_id": String(id)
+        ]
+        params.merge(methodParams) { (_, new) in new }
+                    
+        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { _ in }
+    }
+
 }
