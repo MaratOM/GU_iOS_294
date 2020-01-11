@@ -121,13 +121,17 @@ class MyGroupsController: UITableViewController {
         if let sourceVC = segue.source as? AllGroupsController,
             let indexPath = sourceVC.tableView.indexPathForSelectedRow {
             let group = sourceVC.groups[indexPath.row]
+
             if !groups.contains(where: {$0.title == group.title}) {
-                groups.append(group)
-                tableView.reloadData()
+                networkService.joinGroup(id: group.id)
+
+                try! self.realmService.save([group])
+                self.realmObjects = try! self.realmService.get(Group.self)
+
+                self.initData()
             }
         }
     }
-
 }
 
 extension MyGroupsController: UISearchBarDelegate {

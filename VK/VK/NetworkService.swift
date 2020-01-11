@@ -116,16 +116,16 @@ class NetworkService {
     public func addLike(type: String, ownerId: Int, id: Int) {
         let path = "/method/likes.add"
 
-        self.likeActionHandle(path: path, type: type, ownerId: ownerId, id: id)
+        self.likesActionHandle(path: path, type: type, ownerId: ownerId, id: id)
     }
     
     public func deleteLike(type: String, ownerId: Int, id: Int) {
         let path = "/method/likes.delete"
 
-        self.likeActionHandle(path: path, type: type, ownerId: ownerId, id: id)
+        self.likesActionHandle(path: path, type: type, ownerId: ownerId, id: id)
     }
     
-    private func likeActionHandle(path: String, type: String, ownerId: Int, id: Int) {
+    private func likesActionHandle(path: String, type: String, ownerId: Int, id: Int) {
         var params: Parameters = [
             "access_token": accessToken,
             "extended": 1,
@@ -140,5 +140,30 @@ class NetworkService {
                     
         NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { _ in }
     }
+    
+    public func joinGroup(id: Int) {
+        let path = "/method/groups.join"
 
+        self.groupsActionHandle(path: path, id: id)
+    }
+    
+    public func leaveGroup(id: Int) {
+        let path = "/method/likes.leave"
+
+        self.groupsActionHandle(path: path, id: id)
+    }
+    
+    private func groupsActionHandle(path: String, id: Int) {
+        var params: Parameters = [
+            "access_token": accessToken,
+            "extended": 1,
+            "v": APIversion
+        ]
+        let methodParams: Parameters = [
+            "group_id": String(id)
+        ]
+        params.merge(methodParams) { (_, new) in new }
+                    
+        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { _ in }
+    }
 }
