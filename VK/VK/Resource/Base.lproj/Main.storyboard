@@ -297,9 +297,9 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="xtv-O3-Xae" kind="relationship" relationship="viewControllers" id="Ady-Ne-GYA"/>
-                        <segue destination="wC6-hM-OwG" kind="relationship" relationship="viewControllers" id="NTZ-JR-vUd"/>
                         <segue destination="3vf-8a-Vey" kind="relationship" relationship="viewControllers" id="6xo-fl-HVm"/>
+                        <segue destination="wC6-hM-OwG" kind="relationship" relationship="viewControllers" id="NTZ-JR-vUd"/>
+                        <segue destination="xtv-O3-Xae" kind="relationship" relationship="viewControllers" id="Ady-Ne-GYA"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JmW-lO-a5R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

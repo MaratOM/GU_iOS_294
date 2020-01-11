@@ -23,9 +23,12 @@ class NewsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.tableView.backgroundView = getBackgroundImage();
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         networkService.loadNews() { result in
             switch result {
             case let .success(news):
@@ -50,9 +53,12 @@ extension NewsController: UITableViewDataSource, UITableViewDelegate {
         cell.selectedBackgroundView = UIView()
         cell.newsTitleLabel?.textColor = UIColor.white
 
-        cell.newsTitleLabel.text = news[indexPath.row].title
-        cell.newsImageView?.kf.setImage(with: URL(string: news[indexPath.row].imageURL))
-
+        let newsItem = news[indexPath.row]
+        cell.newsTitleLabel.text = newsItem.title
+        cell.newsImageView?.kf.setImage(with: URL(string: newsItem.imageURL))
+        cell.isLiked = newsItem.isLiked
+        cell.likesCount = newsItem.likesCount
+        
         return cell
     }
 }

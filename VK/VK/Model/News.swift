@@ -14,6 +14,8 @@ class News: Object {
     @objc dynamic var id: Int = 0
     @objc dynamic var imageURL: String = ""
     @objc dynamic var title: String = ""
+    @objc dynamic var isLiked: Bool = false
+    @objc dynamic var likesCount: Int = 0
     
     convenience init(from json: JSON) {
         self.init()
@@ -33,6 +35,9 @@ class News: Object {
         self.imageURL = allSizeImages
             .filter{ $0["type"].stringValue == bigImageSizeType }
             .first!["url"].stringValue
+        
+        self.isLiked = json["likes"]["user_likes"].intValue > 0 ? true : false
+        self.likesCount = json["likes"]["count"].intValue
     }
     
     override static func primaryKey() -> String? {
