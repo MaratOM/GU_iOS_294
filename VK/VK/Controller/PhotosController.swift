@@ -43,7 +43,7 @@ class PhotosController: UICollectionViewController {
                     print("photos got from api")
                     
                     try! self.realmService.save(photos)
-                    self.realmObjects = try! self.realmService.get(Photo.self)
+                    self.realmObjects = try! self.realmService.get(Photo.self).filter("ownerId == %i", self.friend!.id)
                     let updateTime = Update(dataType: "photos", timeStamp: NSDate().timeIntervalSince1970)
                     try! self.realmService.save([updateTime])
                     self.initData()

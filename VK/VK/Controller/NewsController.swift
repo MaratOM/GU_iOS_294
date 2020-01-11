@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class NewsController: UIViewController {
 
@@ -16,29 +17,25 @@ class NewsController: UIViewController {
             tableView.delegate = self
         }
     }
-        
-    let news: [News] = [
-        News(id: "1", image: UIImage(named: "news1")!, title: "Jack White"),
-        News(id: "2", image: UIImage(named: "news3")!, title: "Chris Cornell")
-    ]
+
+    private var networkService = NetworkService()
+    var news = [News]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.tableView.backgroundView = getBackgroundImage();
+        
+        networkService.loadNews() { result in
+            switch result {
+            case let .success(news):
+                self.news = news as! [News]
+                self.tableView.reloadData()
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension NewsController: UITableViewDataSource, UITableViewDelegate {
@@ -54,8 +51,8 @@ extension NewsController: UITableViewDataSource, UITableViewDelegate {
         cell.newsTitleLabel?.textColor = UIColor.white
 
         cell.newsTitleLabel.text = news[indexPath.row].title
-        cell.newsImageView.image = news[indexPath.row].image
-        
+        cell.newsImageView?.kf.setImage(with: URL(string: news[indexPath.row].imageURL))
+
         return cell
     }
 }

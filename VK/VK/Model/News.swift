@@ -6,16 +6,36 @@
 //  Copyright © 2019 maratom. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import SwiftyJSON
+import RealmSwift
 
-class News {
-    let id: String
-    let image: UIImage
-    let title: String
+class News: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var imageURL: String = ""
+    @objc dynamic var title: String = ""
     
-    init(id: String, image: UIImage, title: String) {
-        self.id = id
-        self.image = image
-        self.title = title
+    convenience init(from json: JSON) {
+        self.init()
+        
+        self.id = json["id"].intValue
+        self.title = json["text"].stringValue
+        
+        let photos = json["attachments"].arrayValue.filter{ $0["type"] == "photo" }
+        let allSizeImages = photos.first!["photo"]["sizes"].arrayValue
+        let imageSizeTypes:[String] = allSizeImages.map{ $0["type"].stringValue }
+        var bigImageSizeType = ""
+        ["w", "z", "y", "x", "m"].forEach{
+            if bigImageSizeType == "" && imageSizeTypes.contains($0) {
+                bigImageSizeType = $0
+            }
+        }
+        self.imageURL = allSizeImages
+            .filter{ $0["type"].stringValue == bigImageSizeType }
+            .first!["url"].stringValue
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
     }
 }

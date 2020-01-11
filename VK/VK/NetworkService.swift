@@ -23,6 +23,7 @@ class NetworkService {
         case group
         case friend
         case photo
+        case news
     }
     
     private let baseUrl = "https://api.vk.com"
@@ -63,14 +64,24 @@ class NetworkService {
         self.loadData(model: .photo, path: path, methodParams: params, complition: complition)
     }
     
+    public func loadNews(complition: @escaping (Result<[Object], Error>) -> Void) {
+        let path = "/method/wall.get"
+        let params: Parameters = [
+            "filters": "post",
+        ]
+        
+        self.loadData(model: .news, path: path, methodParams: params, complition: complition)
+    }
+    
     private func loadData(model: dataModel, path: String, methodParams: Parameters, complition: @escaping (Result<[Object], Error>) -> Void) {
         var params: Parameters = [
             "access_token": accessToken,
             "extended": 1,
             "v": APIversion
         ]
-
         params.merge(methodParams) { (_, new) in new }
+        
+        print(accessToken)
         
         NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in
                 switch response.result {
@@ -88,6 +99,12 @@ class NetworkService {
                         }
                     case .photo:
                         list = listJSON.map { Photo(ownerId:params["owner_id"] as! Int,from: $0) }
+                    case .news:
+                        listJSON.forEach {
+                            if($0["attachments"].arrayValue.filter{ $0["type"] == "photo" }.count > 0) {
+                                list.append(News(from: $0))
+                            }
+                        }
                     }
                     complition(.success(list))
                 case let .failure(error):
