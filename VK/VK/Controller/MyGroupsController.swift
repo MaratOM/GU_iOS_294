@@ -9,15 +9,33 @@
 import UIKit
 
 class MyGroupsController: UITableViewController {
+    
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet {
+            searchBar.delegate = self
+        }
+    }
+    
     var groups = [
         Group(image: UIImage(named: "UKFlag")!,title: "English lessons"),
         Group(image: UIImage(named: "UKFlag")!,title: "English meetings")
     ]
     
+    var filteredGroups = [Group]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        self.tableView.backgroundView = getBackgroundImage();
+        self.tableView.backgroundView = getBackgroundImage()
+        
+//        NetworkService.loadGroups(callback: getVKData)
+        
+        filteredGroups = groups
+    }
+    
+    func getVKData (_ json: String) {
+        print(#function)
+        print(json)
     }
     
     
@@ -28,7 +46,7 @@ class MyGroupsController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count
+        return filteredGroups.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -40,8 +58,8 @@ class MyGroupsController: UITableViewController {
         cell.selectedBackgroundView = UIView()
         cell.groupTitleLabel?.textColor = UIColor.white
         
-        cell.groupTitleLabel?.text = groups[indexPath.row].title
-        cell.groupImageView?.image = groups[indexPath.row].image
+        cell.groupTitleLabel?.text = filteredGroups[indexPath.row].title
+        cell.groupImageView?.image = filteredGroups[indexPath.row].image
                         
         return cell
     }
@@ -65,4 +83,17 @@ class MyGroupsController: UITableViewController {
         }
     }
 
+}
+
+extension MyGroupsController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredGroups = groups
+        } else {
+            filteredGroups = groups.filter({ $0.title.lowercased().contains(searchText.lowercased()) })
+        }
+        
+        tableView.reloadData()
+        print(searchText)
+    }
 }
