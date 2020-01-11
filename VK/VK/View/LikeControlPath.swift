@@ -17,7 +17,13 @@ class LikeControlPath: UIControl {
     
     @IBOutlet var likesCountLabel: UILabel!
     
-    private var likesCount: Int = 0
+    private var networkService = NetworkService()
+    private var likesCount: Int = 0 {
+        didSet {
+            likesCountLabel!.text = String(likesCount)
+        }
+    }
+    private var photo: Photo!
 
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -65,19 +71,18 @@ class LikeControlPath: UIControl {
         
         if isLiked {
             likesCount += 1
-            likesCountLabel!.text = String(likesCount)
+            networkService.addLike(type: "photo", ownerId: photo.ownerId, id: photo.id)
         } else {
             likesCount -= 1
-            likesCountLabel!.text = String(likesCount)
+            networkService.deleteLike(type: "photo", ownerId: photo.ownerId, id: photo.id)
         }
     }
     
     // MARK: -  Public API
-    public func configure(likes count: Int, isLikedByUser: Bool) {
-        self.likesCount = count
-        self.isLiked = isLikedByUser
-        
-        likesCountLabel.text = String(likesCount)
+    public func configure(photo: Photo) {
+        self.likesCount = photo.likesCount
+        self.isLiked = photo.isLiked
+        self.photo = photo
     }
     
 }
