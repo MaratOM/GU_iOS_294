@@ -22,7 +22,6 @@ class MyGroupsController: UITableViewController {
     private var notificationToken: NotificationToken?
 
     private lazy var groups = try! self.realmService.get(Group.self)
-    private lazy var updatedTime = try! self.realmService.get(Update.self).filter("dataType == %@", "groups").first?.timeStamp
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,26 +33,8 @@ class MyGroupsController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        print("groups time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
-                
-        if (groups.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime!) > Update.interval) {
-            networkService.loadGroups() { result in
-                switch result {
-                case let .success(groups):
-                    print("groups got from api")
-                    
-                    try! self.realmService.save(groups)
-                    
-                    let updateTime = Update(dataType: "groups", timeStamp: NSDate().timeIntervalSince1970)
-                    try! self.realmService.save([updateTime])
-                    
-                    self.tableView.reloadData()
-                case let .failure(error):
-                    print(error)
-                }
-            }
-        }
+        
+        networkService.loadDataWithRealm(type: Group.self)
         
         self.notificationToken = groups.observe({ [weak self] change in
             guard let self = self else { return }

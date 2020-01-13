@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 class NewsController: UIViewController {
 
@@ -19,8 +20,11 @@ class NewsController: UIViewController {
     }
 
     private var networkService = NetworkService()
-    var news = [News]()
-    
+    private var realmService = RealmService()
+    private var notificationToken: NotificationToken?
+
+    private lazy var news = try! self.realmService.get(News.self)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundView = getBackgroundImage();
@@ -29,15 +33,19 @@ class NewsController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        networkService.loadNews() { result in
-            switch result {
-            case let .success(news):
-                self.news = news as! [News]
+        networkService.loadDataWithRealm(type: News.self)
+        
+        self.notificationToken = news.observe({ [weak self] change in
+            guard let self = self else { return }
+            switch change {
+            case .initial:
+                break
+            case .update:
                 self.tableView.reloadData()
-            case let .failure(error):
+            case let .error(error):
                 print(error)
             }
-        }
+        })
     }
 }
 

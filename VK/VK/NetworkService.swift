@@ -29,13 +29,6 @@ class NetworkService {
     private let baseUrl = "https://api.vk.com"
     private let APIversion = "5.92"
     private let accessToken = Session.shared.accessToken
-
-
-    public func loadGroups(complition: @escaping (Result<[Object], Error>) -> Void) {
-        let path = "/method/groups.get"
-        
-        self.loadData(model: .group, path: path, methodParams: [:], complition: complition)
-    }
     
     public func searchGroups(q: String, complition: @escaping (Result<[Object], Error>) -> Void) {
         let path = "/method/groups.search"
@@ -43,7 +36,7 @@ class NetworkService {
             "q": q,
         ]
         
-        self.loadData(model: .group, path: path, methodParams: params, complition: complition)
+        self.loadDataRequest(model: .group, path: path, methodParams: params, complition: complition)
     }
     
     public func loadFriends(complition: @escaping (Result<[Object], Error>) -> Void) {
@@ -52,7 +45,7 @@ class NetworkService {
             "fields": "photo_100",
         ]
         
-        self.loadData(model: .friend, path: path, methodParams: params, complition: complition)
+        self.loadDataRequest(model: .friend, path: path, methodParams: params, complition: complition)
     }
     
     public func loadPhotos(ownerId: Int, complition: @escaping (Result<[Object], Error>) -> Void) {
@@ -61,19 +54,10 @@ class NetworkService {
             "owner_id": ownerId,
         ]
         
-        self.loadData(model: .photo, path: path, methodParams: params, complition: complition)
+        self.loadDataRequest(model: .photo, path: path, methodParams: params, complition: complition)
     }
     
-    public func loadNews(complition: @escaping (Result<[Object], Error>) -> Void) {
-        let path = "/method/wall.get"
-        let params: Parameters = [
-            "filters": "post",
-        ]
-        
-        self.loadData(model: .news, path: path, methodParams: params, complition: complition)
-    }
-    
-    private func loadData(model: dataModel, path: String, methodParams: Parameters, complition: @escaping (Result<[Object], Error>) -> Void) {
+    private func loadDataRequest(model: dataModel, path: String, methodParams: Parameters, complition: @escaping (Result<[Object], Error>) -> Void) {
         var params: Parameters = [
             "access_token": accessToken,
             "extended": 1,
@@ -109,6 +93,96 @@ class NetworkService {
                     complition(.success(list))
                 case let .failure(error):
                     complition(.failure(error))
+            }
+        }
+    }
+    
+    private func loadDataFactory<T: Object>(type: T.Type, complition: @escaping (Result<[Object], Error>) -> Void) {
+        var path = ""
+        var methodParams: Parameters = [:]
+        var params: Parameters = [
+            "access_token": accessToken,
+            "extended": 1,
+            "v": APIversion
+        ]
+        
+        switch type.className() {
+        case Group.className():
+            path = "/method/groups.get"
+        case Friend.className():
+            path = "/method/friends.get"
+            methodParams = [
+                "fields": "photo_100",
+            ]
+//        case Photo.className():
+//            path = "/method/photos.getAll"
+//            methodParams = [
+//                "owner_id": ownerId,
+//            ]
+        case News.className():
+            path = "/method/wall.get"
+            methodParams = [
+                "filters": "post",
+            ]
+        default:
+            return
+        }
+
+        params.merge(methodParams) { (_, new) in new }
+        
+        print(accessToken)
+        
+        NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in
+                switch response.result {
+                case let .success(data):
+                    let listJSON = JSON(data)["response"]["items"].arrayValue
+                    var list = Array<Object>()
+                    switch type.className() {
+                    case Group.className():
+                        list = listJSON.map { Group(from: $0) }
+                    case Friend.className():
+                        listJSON.forEach {
+                            if($0["first_name"].stringValue != "DELETED") {
+                                list.append(Friend(from: $0))
+                            }
+                        }
+                    case Photo.className():
+                        list = listJSON.map { Photo(ownerId:params["owner_id"] as! Int,from: $0) }
+                    case News.className():
+                        listJSON.forEach {
+                            if($0["attachments"].arrayValue.filter{ $0["type"] == "photo" }.count > 0) {
+                                list.append(News(from: $0))
+                            }
+                        }
+                    default:
+                        return
+                    }
+                    complition(.success(list))
+                case let .failure(error):
+                    complition(.failure(error))
+            }
+        }
+    }
+    
+    public func loadDataWithRealm<T: Object>(type: T.Type, additionalData: Dictionary<String, String> = [:]) {
+        let realmService = RealmService()
+        let networkService = NetworkService()
+        let items = try! realmService.get(type)
+        let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", type.className()).first?.timeStamp ?? NSDate().timeIntervalSince1970
+                
+        if (items.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime) > Update.interval) {
+            networkService.loadDataFactory(type: type) { result in
+                switch result {
+                case let .success(items):
+                    print("\(type.className()) items got from api")
+
+                    try! realmService.save(items)
+                    
+                    let updateTime = Update(dataType: type.className(), timeStamp: NSDate().timeIntervalSince1970)
+                    try! realmService.save([updateTime])
+                case let .failure(error):
+                    print(error)
+                }
             }
         }
     }
