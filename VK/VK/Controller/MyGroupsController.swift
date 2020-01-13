@@ -123,14 +123,39 @@ class MyGroupsController: UITableViewController {
             let group = sourceVC.groups[indexPath.row]
 
             if !groups.contains(where: {$0.title == group.title}) {
-                networkService.joinGroup(id: group.id)
-
-                try! self.realmService.save([group])
-                self.realmObjects = try! self.realmService.get(Group.self)
-
-                self.initData()
+                addGroupAlert(group: group)
+            } else {
+                groupExistsAlert(group)
             }
         }
+    }
+    
+    @IBAction func addGroupAlert(group: Group) {
+        let alertController = UIAlertController(title: "Добваление группы", message: "Вступить в группу\n\(group.title)", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Нет", style: .cancel) { _ in return }
+        alertController.addAction(cancelAction)
+        
+        let OKAction = UIAlertAction(title: "Да", style: .default) { (action:UIAlertAction!) in
+            self.networkService.joinGroup(id: group.id)
+
+            try! self.realmService.save([group])
+            self.initData()
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+        alertController.addAction(OKAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func groupExistsAlert(_ group: Group) {
+        let alertController = UIAlertController(title: "Добваление группы", message: "Вы уже являетесь членом группы\n\(group.title)", preferredStyle: .alert)
+        
+        let OKAction = UIAlertAction(title: "Ok", style: .default) { _ in return }
+        alertController.addAction(OKAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
