@@ -21,49 +21,41 @@ class MyGroupsController: UITableViewController {
     private var realmService = RealmService()
     private var notificationToken: NotificationToken?
 
-    private var realmObjects: Results<Group>!
-    private var groups = [Group]()
-    private var filteredGroups = [Group]()
+    private lazy var groups = try! self.realmService.get(Group.self)
+    private lazy var updatedTime = try! self.realmService.get(Update.self).filter("dataType == %@", "groups").first?.timeStamp
         
     override func viewDidLoad() {
         super.viewDidLoad()
                 
         self.tableView.backgroundView = getBackgroundImage()
     
-//        guard let realm = try? Realm() else { fatalError() }
-//        try? realm.write {
-//            realm.deleteAll()
-//        }
+//        try! self.realmService.deleteAll()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", "groups").first?.timeStamp
+
         print("groups time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
-        
-        realmObjects = try! realmService.get(Group.self)
-        
-        if (realmObjects.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime!) > Update.interval) {
+                
+        if (groups.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime!) > Update.interval) {
             networkService.loadGroups() { result in
                 switch result {
                 case let .success(groups):
                     print("groups got from api")
                     
                     try! self.realmService.save(groups)
-                    self.realmObjects = try! self.realmService.get(Group.self)
+                    
                     let updateTime = Update(dataType: "groups", timeStamp: NSDate().timeIntervalSince1970)
                     try! self.realmService.save([updateTime])
-                    self.initData()
+                    
+                    self.tableView.reloadData()
                 case let .failure(error):
                     print(error)
                 }
             }
-        } else {
-            initData()
         }
         
-        self.notificationToken = realmObjects.observe({ [weak self] change in
+        self.notificationToken = groups.observe({ [weak self] change in
             guard let self = self else { return }
             switch change {
             case .initial:
@@ -82,13 +74,6 @@ class MyGroupsController: UITableViewController {
         notificationToken?.invalidate()
     }
     
-    private func initData() {
-        self.groups = Array(realmObjects)
-        self.filteredGroups = self.groups
-        self.tableView.reloadData()
-    }
-    
-    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -96,7 +81,7 @@ class MyGroupsController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredGroups.count
+        return groups.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,15 +89,16 @@ class MyGroupsController: UITableViewController {
             preconditionFailure("Cell can not be dequeued")
         }
 
-        cell.configure(with: filteredGroups[indexPath.row])
+        cell.configure(with: groups[indexPath.row])
                         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            groups.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let group = groups[indexPath.row]
+            self.networkService.leaveGroup(id: group.id)
+            try! self.realmService.delete([group])
         }
     }
 
@@ -138,9 +124,7 @@ class MyGroupsController: UITableViewController {
         
         let OKAction = UIAlertAction(title: "Да", style: .default) { (action:UIAlertAction!) in
             self.networkService.joinGroup(id: group.id)
-
             try! self.realmService.save([group])
-            self.initData()
             
             self.navigationController?.popViewController(animated: true)
         }
@@ -162,12 +146,11 @@ class MyGroupsController: UITableViewController {
 extension MyGroupsController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            filteredGroups = groups
+            self.groups = try! self.realmService.get(Group.self)
         } else {
-            filteredGroups = groups.filter({ $0.title.lowercased().contains(searchText.lowercased()) })
+            self.groups = try! self.realmService.get(Group.self).filter("title CONTAINS[cd] %@", searchText)
         }
         
         tableView.reloadData()
-        print(searchText)
     }
 }

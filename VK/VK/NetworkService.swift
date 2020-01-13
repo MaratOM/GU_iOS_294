@@ -148,7 +148,7 @@ class NetworkService {
     }
     
     public func leaveGroup(id: Int) {
-        let path = "/method/likes.leave"
+        let path = "/method/groups.leave"
 
         self.groupsActionHandle(path: path, id: id)
     }

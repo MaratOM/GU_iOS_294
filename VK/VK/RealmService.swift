@@ -29,4 +29,16 @@ class RealmService {
             realm.add(items, update: updateType)
         }
     }
+    
+    func delete<T: Object>(_ items: [T]) throws {
+        try realm.write {
+            realm.delete(items)
+        }
+    }
+    
+    func deleteAll() throws {
+        try realm.write {
+            realm.deleteAll()
+        }
+    }
 }
