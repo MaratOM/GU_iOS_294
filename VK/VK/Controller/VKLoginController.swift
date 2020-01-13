@@ -36,6 +36,10 @@ class VKLoginController: UIViewController {
         let request = URLRequest(url: components.url!)
         webView.load(request)
     }
+    
+    public func logOut() {
+        WebCacheCleaner.clean()
+    }
 }
 
 extension VKLoginController: WKNavigationDelegate {
