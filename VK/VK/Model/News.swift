@@ -18,14 +18,17 @@ class News: Object {
     @objc dynamic var isLiked: Bool = false
     @objc dynamic var likesCount: Int = 0
     
-    convenience init(from json: JSON) {
+    convenience init?(from json: JSON) {
         self.init()
+        
+        let photos = json["attachments"].arrayValue.filter{ $0["type"] == "photo" }
+
+        guard photos.count > 0 else { return nil }
         
         self.id = json["id"].intValue
         self.ownerId = json["owner_id"].intValue
         self.title = json["text"].stringValue
         
-        let photos = json["attachments"].arrayValue.filter{ $0["type"] == "photo" }
         let allSizeImages = photos.first!["photo"]["sizes"].arrayValue
         let imageSizeTypes:[String] = allSizeImages.map{ $0["type"].stringValue }
         var bigImageSizeType = ""

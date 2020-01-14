@@ -27,6 +27,7 @@ class NewsController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.tableView.backgroundView = getBackgroundImage();
     }
     

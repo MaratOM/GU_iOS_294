@@ -67,17 +67,15 @@ class NetworkService {
                         list = listJSON.map { Group(from: $0) }
                     case .friend:
                         listJSON.forEach {
-                            if($0["first_name"].stringValue != "DELETED") {
-                                list.append(Friend(from: $0))
-                            }
+                            guard let friend = Friend(from: $0) else { return }
+                            list.append(friend)
                         }
                     case .photo:
                         list = listJSON.map { Photo(ownerId:params["owner_id"] as! Int,from: $0) }
                     case .news:
                         listJSON.forEach {
-                            if($0["attachments"].arrayValue.filter{ $0["type"] == "photo" }.count > 0) {
-                                list.append(News(from: $0))
-                            }
+                            guard let news = News(from: $0) else { return }
+                            list.append(news)
                         }
                     }
                     complition(.success(list))
@@ -131,18 +129,16 @@ class NetworkService {
                         list = listJSON.map { Group(from: $0) }
                     case is Friend:
                         listJSON.forEach {
-                            if($0["first_name"].stringValue != "DELETED") {
-                                list.append(Friend(from: $0))
-                            }
+                            guard let friend = Friend(from: $0) else { return }
+                            list.append(friend)
                         }
                     case is Photo:
                         guard let ownerId = additionalData["ownerId"] else { return }
                         list = listJSON.map { Photo(ownerId: ownerId as! Int, from: $0) }
                     case is News:
                         listJSON.forEach {
-                            if($0["attachments"].arrayValue.filter{ $0["type"] == "photo" }.count > 0) {
-                                list.append(News(from: $0))
-                            }
+                            guard let news = News(from: $0) else { return }
+                            list.append(news)
                         }
                     default:
                         return
