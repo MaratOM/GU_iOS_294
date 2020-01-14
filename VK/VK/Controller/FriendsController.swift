@@ -21,10 +21,8 @@ class FriendsController: UITableViewController {
     private var realmService = RealmService.shared
     private var notificationToken: NotificationToken?
 
-    private var realmObjects: Results<Friend>!
-    private var allFriends = [Friend]()
-    private var friends = [Friend]()
-    private var friendsDict = [Character: [Friend]]()
+    private lazy var friends = try! self.realmService.get(Friend.self)
+    private lazy var friendsDict = [Character: Results<Friend>]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,31 +33,12 @@ class FriendsController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", "friends").first?.timeStamp
-        print("friends time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
+        networkService.loadDataWithRealm(type: Friend.self)
+
+        self.populateFriendsDict(with: friends)
+        self.tableView.reloadData()
         
-        realmObjects = try! realmService.get(Friend.self)
-        
-        if (realmObjects.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime!) > Update.interval) {
-            networkService.loadFriends() { result in
-                switch result {
-                case let .success(friends):
-                    print("friends got from api")
-                    
-                    try! self.realmService.save(friends)
-                    self.realmObjects = try! self.realmService.get(Friend.self)
-                    let updateTime = Update(dataType: "friends", timeStamp: NSDate().timeIntervalSince1970)
-                    try! self.realmService.save([updateTime])
-                    self.initData()
-                case let .failure(error):
-                    print(error)
-                }
-            }
-        } else {
-            initData()
-        }
-        
-        self.notificationToken = realmObjects.observe({ [weak self] change in
+        self.notificationToken = friends.observe({ [weak self] change in
             guard let self = self else { return }
             switch change {
             case .initial:
@@ -76,13 +55,6 @@ class FriendsController: UITableViewController {
         super.viewWillDisappear(animated)
 
         notificationToken?.invalidate()
-    }
-    
-    private func initData() {
-        self.allFriends = Array(realmObjects)
-        self.friends = self.allFriends
-        self.friendsDict = self.sort(friends: friends)
-        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -105,7 +77,6 @@ class FriendsController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-
         return String(friendsDict.keys.sorted()[section])
     }
 
@@ -133,32 +104,27 @@ class FriendsController: UITableViewController {
         }
     }
 
-    private func sort(friends: [Friend]) -> [Character: [Friend]]{
-        var friendsDict = [Character: [Friend]]()
+    private func populateFriendsDict(with friends: Results<Friend>) {
+        var firstLetters = Set<Character>()
+        self.friendsDict = [Character: Results<Friend>]()
         
-        friends.sorted{ $0.name < $1.name }.forEach{ friend in
-            guard let firstLetter = friend.name.first else { return }
-            
-            if friendsDict.keys.contains(firstLetter) {
-                friendsDict[firstLetter]?.append(friend)
-            } else {
-                friendsDict[firstLetter] = [friend]
-            }
+        friends.sorted{ $0.name < $1.name }.forEach{ firstLetters.insert($0.name.first!) }
+        
+        firstLetters.forEach{ char in
+            friendsDict[char] = friends.filter("name BEGINSWITH %@", String(char))
         }
-        
-        return friendsDict
     }
 }
 
 extension FriendsController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            friends = allFriends
+            self.friends = try! self.realmService.get(Friend.self)
         } else {
-            friends = allFriends.filter({ $0.name.lowercased().contains(searchText.lowercased()) })
+            self.friends = try! self.realmService.get(Friend.self).filter("name CONTAINS[cd] %@", searchText)
         }
-        friendsDict = sort(friends: friends)
-
+                
+        populateFriendsDict(with: friends)
         tableView.reloadData()
     }
 }
