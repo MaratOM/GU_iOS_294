@@ -14,7 +14,7 @@ private let reuseIdentifier = "Cell"
 class PhotosController: UICollectionViewController {
 
     private var networkService = NetworkService()
-    private var realmService = RealmService()
+    private var realmService = RealmService.shared
     private var notificationToken: NotificationToken?
 
     private lazy var photos = try! realmService.get(Photo.self).filter("ownerId = %i", friend!.id)

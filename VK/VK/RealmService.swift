@@ -14,11 +14,13 @@ class RealmService {
     let realmConfiguration = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
     let updateType: Realm.UpdatePolicy = .all
     
-    init() {
+    private init() {
         self.realm = try! Realm(configuration: self.realmConfiguration)
         
         print(self.realmConfiguration.fileURL ?? "")
     }
+    
+    static let shared = RealmService()
     
     func get<T: Object>(_ type: T.Type) throws -> Results<T>{
         return realm.objects(type)

@@ -16,6 +16,7 @@ class NetworkService {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 20
         let session = Alamofire.Session(configuration: config)
+//        print(Session.shared.accessToken)
         return session
     }()
     
@@ -48,15 +49,6 @@ class NetworkService {
         self.loadDataRequest(model: .friend, path: path, methodParams: params, complition: complition)
     }
     
-    public func loadPhotos(ownerId: Int, complition: @escaping (Result<[Object], Error>) -> Void) {
-        let path = "/method/photos.getAll"
-        let params: Parameters = [
-            "owner_id": ownerId,
-        ]
-        
-        self.loadDataRequest(model: .photo, path: path, methodParams: params, complition: complition)
-    }
-    
     private func loadDataRequest(model: dataModel, path: String, methodParams: Parameters, complition: @escaping (Result<[Object], Error>) -> Void) {
         var params: Parameters = [
             "access_token": accessToken,
@@ -64,9 +56,7 @@ class NetworkService {
             "v": APIversion
         ]
         params.merge(methodParams) { (_, new) in new }
-        
-        print(accessToken)
-        
+                
         NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in
                 switch response.result {
                 case let .success(data):
@@ -130,9 +120,7 @@ class NetworkService {
         }
 
         params.merge(methodParams) { (_, new) in new }
-        
-        print(accessToken)
-        
+                
         NetworkService.session.request(baseUrl + path, method: .get, parameters: params).responseJSON { response in
                 switch response.result {
                 case let .success(data):
@@ -167,7 +155,7 @@ class NetworkService {
     }
     
     public func loadDataWithRealm<T: Object>(type: T.Type, additionalData: Dictionary<String, Any> = [:]) {
-        let realmService = RealmService()
+        let realmService = RealmService.shared
         let networkService = NetworkService()
         var items: Results<T>
         

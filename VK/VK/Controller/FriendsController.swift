@@ -18,7 +18,7 @@ class FriendsController: UITableViewController {
     }
     
     private var networkService = NetworkService()
-    private var realmService = RealmService()
+    private var realmService = RealmService.shared
     private var notificationToken: NotificationToken?
 
     private var realmObjects: Results<Friend>!

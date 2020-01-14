@@ -20,7 +20,7 @@ class NewsController: UIViewController {
     }
 
     private var networkService = NetworkService()
-    private var realmService = RealmService()
+    private var realmService = RealmService.shared
     private var notificationToken: NotificationToken?
 
     private lazy var news = try! self.realmService.get(News.self)

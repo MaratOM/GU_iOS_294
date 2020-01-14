@@ -18,7 +18,7 @@ class MyGroupsController: UITableViewController {
     }
     
     private var networkService = NetworkService()
-    private var realmService = RealmService()
+    private var realmService = RealmService.shared
     private var notificationToken: NotificationToken?
 
     private lazy var groups = try! self.realmService.get(Group.self)
