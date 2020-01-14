@@ -97,7 +97,7 @@ class NetworkService {
         }
     }
     
-    private func loadDataFactory<T: Object>(type: T.Type, complition: @escaping (Result<[Object], Error>) -> Void) {
+    private func loadDataFactory<T: Object>(type: T.Type, additionalData: Dictionary<String, Any>, complition: @escaping (Result<[Object], Error>) -> Void) {
         var path = ""
         var methodParams: Parameters = [:]
         var params: Parameters = [
@@ -106,20 +106,21 @@ class NetworkService {
             "v": APIversion
         ]
         
-        switch type.className() {
-        case Group.className():
+        switch T() {
+        case is Group:
             path = "/method/groups.get"
-        case Friend.className():
+        case is Friend:
             path = "/method/friends.get"
             methodParams = [
                 "fields": "photo_100",
             ]
-//        case Photo.className():
-//            path = "/method/photos.getAll"
-//            methodParams = [
-//                "owner_id": ownerId,
-//            ]
-        case News.className():
+        case is Photo:
+            guard let ownerId = additionalData["ownerId"] else { return }
+            path = "/method/photos.getAll"
+            methodParams = [
+                "owner_id": ownerId,
+            ]
+        case is News:
             path = "/method/wall.get"
             methodParams = [
                 "filters": "post",
@@ -137,18 +138,19 @@ class NetworkService {
                 case let .success(data):
                     let listJSON = JSON(data)["response"]["items"].arrayValue
                     var list = Array<Object>()
-                    switch type.className() {
-                    case Group.className():
+                    switch T() {
+                    case is Group:
                         list = listJSON.map { Group(from: $0) }
-                    case Friend.className():
+                    case is Friend:
                         listJSON.forEach {
                             if($0["first_name"].stringValue != "DELETED") {
                                 list.append(Friend(from: $0))
                             }
                         }
-                    case Photo.className():
-                        list = listJSON.map { Photo(ownerId:params["owner_id"] as! Int,from: $0) }
-                    case News.className():
+                    case is Photo:
+                        guard let ownerId = additionalData["ownerId"] else { return }
+                        list = listJSON.map { Photo(ownerId: ownerId as! Int, from: $0) }
+                    case is News:
                         listJSON.forEach {
                             if($0["attachments"].arrayValue.filter{ $0["type"] == "photo" }.count > 0) {
                                 list.append(News(from: $0))
@@ -164,14 +166,21 @@ class NetworkService {
         }
     }
     
-    public func loadDataWithRealm<T: Object>(type: T.Type, additionalData: Dictionary<String, String> = [:]) {
+    public func loadDataWithRealm<T: Object>(type: T.Type, additionalData: Dictionary<String, Any> = [:]) {
         let realmService = RealmService()
         let networkService = NetworkService()
-        let items = try! realmService.get(type)
+        var items: Results<T>
+        
+        if let ownerId = additionalData["ownerId"] {
+            items = try! realmService.get(type).filter("ownerId = %i", ownerId)
+        } else {
+            items = try! realmService.get(type)
+        }
+        
         let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", type.className()).first?.timeStamp ?? NSDate().timeIntervalSince1970
                 
         if (items.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime) > Update.interval) {
-            networkService.loadDataFactory(type: type) { result in
+            networkService.loadDataFactory(type: type, additionalData: additionalData) { result in
                 switch result {
                 case let .success(items):
                     print("\(type.className()) items got from api")

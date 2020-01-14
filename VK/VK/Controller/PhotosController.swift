@@ -17,8 +17,7 @@ class PhotosController: UICollectionViewController {
     private var realmService = RealmService()
     private var notificationToken: NotificationToken?
 
-    private var realmObjects: Results<Photo>!
-    private var photos = [Photo]()
+    private lazy var photos = try! realmService.get(Photo.self).filter("ownerId = %i", friend!.id)
     public var friend: Friend? = nil
     
     override func viewDidLoad() {
@@ -31,31 +30,9 @@ class PhotosController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let updatedTime = try! realmService.get(Update.self).filter("dataType == %@", "photos").first?.timeStamp
-        print("photos time diff \(NSDate().timeIntervalSince1970 - Double(updatedTime ?? NSDate().timeIntervalSince1970))")
+        networkService.loadDataWithRealm(type: Photo.self, additionalData: ["ownerId": friend!.id])
         
-        realmObjects = try! realmService.get(Photo.self).filter("ownerId = %i", friend!.id)
-        
-        if (realmObjects.count == 0 || NSDate().timeIntervalSince1970 - Double(updatedTime!) > Update.interval) {
-            networkService.loadPhotos(ownerId: friend!.id) { result in
-                switch result {
-                case let .success(photos):
-                    print("photos got from api")
-                    
-                    try! self.realmService.save(photos)
-                    self.realmObjects = try! self.realmService.get(Photo.self).filter("ownerId == %i", self.friend!.id)
-                    let updateTime = Update(dataType: "photos", timeStamp: NSDate().timeIntervalSince1970)
-                    try! self.realmService.save([updateTime])
-                    self.initData()
-                case let .failure(error):
-                    print(error)
-                }
-            }
-        } else {
-            initData()
-        }
-        
-        self.notificationToken = realmObjects.observe({ [weak self] change in
+        self.notificationToken = photos.observe({ [weak self] change in
             guard let self = self else { return }
             switch change {
             case .initial:
@@ -72,11 +49,6 @@ class PhotosController: UICollectionViewController {
         super.viewWillDisappear(animated)
 
         notificationToken?.invalidate()
-    }
-    
-    private func initData() {
-        self.photos = Array(realmObjects)
-        self.collectionView.reloadData()
     }
 
     // MARK: UICollectionViewDataSource
@@ -104,7 +76,7 @@ class PhotosController: UICollectionViewController {
         if segue.identifier == "Show Big Photo",
             let destinationVC = segue.destination as? BigPhotoController {
             let indexPath = collectionView.indexPathsForSelectedItems?.first;
-            destinationVC.photos = photos
+            destinationVC.photos = Array(photos)
             destinationVC.selectedPhotoIndex = indexPath!.item
             collectionView.deselectItem(at: indexPath!, animated: true)
         }
