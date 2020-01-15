@@ -27,7 +27,7 @@ class FriendsController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.backgroundView = getBackgroundImage();
+        tableView.backgroundView = getBackgroundImage();
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,10 +35,10 @@ class FriendsController: UITableViewController {
         
         networkService.loadDataWithRealm(type: Friend.self)
 
-        self.populateFriendsDict(with: friends)
-        self.tableView.reloadData()
+        populateFriendsDict(with: friends)
+        tableView.reloadData()
         
-        self.notificationToken = friends.observe({ [weak self] change in
+        notificationToken = friends.observe({ [weak self] change in
             guard let self = self else { return }
             switch change {
             case .initial:
@@ -106,7 +106,7 @@ class FriendsController: UITableViewController {
 
     private func populateFriendsDict(with friends: Results<Friend>) {
         var firstLetters = Set<Character>()
-        self.friendsDict = [Character: Results<Friend>]()
+        friendsDict = [Character: Results<Friend>]()
         
         friends.sorted{ $0.lastName < $1.lastName }.forEach{ firstLetters.insert($0.lastName.first!) }
         
@@ -119,9 +119,9 @@ class FriendsController: UITableViewController {
 extension FriendsController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            self.friends = try! self.realmService.get(Friend.self)
+            friends = try! realmService.get(Friend.self)
         } else {
-            self.friends = try! self.realmService.get(Friend.self).filter("name CONTAINS[cd] %@", searchText)
+            friends = try! realmService.get(Friend.self).filter("name CONTAINS[cd] %@", searchText)
         }
                 
         populateFriendsDict(with: friends)

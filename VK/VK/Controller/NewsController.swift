@@ -28,7 +28,7 @@ class NewsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.backgroundView = getBackgroundImage();
+        tableView.backgroundView = getBackgroundImage();
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,7 +36,7 @@ class NewsController: UIViewController {
         
         networkService.loadDataWithRealm(type: News.self)
         
-        self.notificationToken = news.observe({ [weak self] change in
+        notificationToken = news.observe({ [weak self] change in
             guard let self = self else { return }
             switch change {
             case .initial:

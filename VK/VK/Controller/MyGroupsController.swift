@@ -26,7 +26,7 @@ class MyGroupsController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        self.tableView.backgroundView = getBackgroundImage()
+        tableView.backgroundView = getBackgroundImage()
     
 //        try! self.realmService.deleteAll()
     }
@@ -36,7 +36,7 @@ class MyGroupsController: UITableViewController {
         
         networkService.loadDataWithRealm(type: Group.self)
         
-        self.notificationToken = groups.observe({ [weak self] change in
+        notificationToken = groups.observe({ [weak self] change in
             guard let self = self else { return }
             switch change {
             case .initial:
@@ -78,8 +78,8 @@ class MyGroupsController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let group = groups[indexPath.row]
-            self.networkService.doGroupsAction(action: .leave, id: group.id)
-            try! self.realmService.delete([group])
+            networkService.doGroupsAction(action: .leave, id: group.id)
+            try! realmService.delete([group])
         }
     }
 
@@ -111,7 +111,7 @@ class MyGroupsController: UITableViewController {
         }
         alertController.addAction(OKAction)
         
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func groupExistsAlert(_ group: Group) {
@@ -120,16 +120,16 @@ class MyGroupsController: UITableViewController {
         let OKAction = UIAlertAction(title: "Ok", style: .default) { _ in return }
         alertController.addAction(OKAction)
         
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
 extension MyGroupsController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            self.groups = try! self.realmService.get(Group.self)
+            groups = try! realmService.get(Group.self)
         } else {
-            self.groups = try! self.realmService.get(Group.self).filter("title CONTAINS[cd] %@", searchText)
+            groups = try! realmService.get(Group.self).filter("title CONTAINS[cd] %@", searchText)
         }
         
         tableView.reloadData()

@@ -23,8 +23,8 @@ class PhotosController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionView.backgroundView = getBackgroundImage();
-        self.title = friend?.name
+        collectionView.backgroundView = getBackgroundImage();
+        title = friend?.name
     }
     
     override func viewWillAppear(_ animated: Bool) {

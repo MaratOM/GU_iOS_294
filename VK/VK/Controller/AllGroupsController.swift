@@ -31,7 +31,7 @@ class AllGroupsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.backgroundView = getBackgroundImage();
+        tableView.backgroundView = getBackgroundImage();
     }
 }
 

@@ -25,7 +25,7 @@ class BigPhotoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.photoImageView.kf.setImage(with: URL(string: photos[selectedPhotoIndex].bigImageURL))
+        photoImageView.kf.setImage(with: URL(string: photos[selectedPhotoIndex].bigImageURL))
         view.insertSubview(additionalImageView, belowSubview: photoImageView)
         additionalImageView.translatesAutoresizingMaskIntoConstraints = false
         additionalImageView.contentMode = .scaleAspectFit
@@ -50,7 +50,7 @@ class BigPhotoController: UIViewController {
 
         additionalImageView.kf.setImage(with: URL(string: photos[selectedPhotoIndex + 1].bigImageURL))
 
-        additionalImageView.transform = CGAffineTransform(translationX: self.additionalImageView.bounds.width * 2, y: 200).concatenating(CGAffineTransform(scaleX: 1.6, y: 1.6))
+        additionalImageView.transform = CGAffineTransform(translationX: additionalImageView.bounds.width * 2, y: 200).concatenating(CGAffineTransform(scaleX: 1.6, y: 1.6))
 
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.photoImageView.transform = CGAffineTransform(translationX: -self.photoImageView.bounds.width * 2, y: -200).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
@@ -64,7 +64,7 @@ class BigPhotoController: UIViewController {
     @objc func photoSwipedRight(_ swipeGestureRecognizer: UISwipeGestureRecognizer) {
         guard selectedPhotoIndex > 0 else { return }
 
-        self.additionalImageView.kf.setImage(with: URL(string: self.photos[self.selectedPhotoIndex - 1].bigImageURL))
+        additionalImageView.kf.setImage(with: URL(string: self.photos[selectedPhotoIndex - 1].bigImageURL))
 
         additionalImageView.transform = CGAffineTransform(translationX: -self.additionalImageView.bounds.width * 2, y: -200).concatenating(CGAffineTransform(scaleX: 1.6, y: 1.6))
 
@@ -78,8 +78,8 @@ class BigPhotoController: UIViewController {
     }
     
     func animationComplitionHandle() {
-        self.photoImageView.kf.setImage(with: URL(string: self.photos[self.selectedPhotoIndex].bigImageURL))
-        self.photoImageView.transform = .identity
-        self.additionalImageView.image = nil
+        photoImageView.kf.setImage(with: URL(string: photos[selectedPhotoIndex].bigImageURL))
+        photoImageView.transform = .identity
+        additionalImageView.image = nil
     }
 }
