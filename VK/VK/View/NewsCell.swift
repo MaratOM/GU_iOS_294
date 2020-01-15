@@ -72,13 +72,16 @@ class NewsCell: UITableViewCell {
         isLiked.toggle()
         setNeedsDisplay()
         
+        var action: NetworkService.LikesActions
+        
         if isLiked {
             likesCount += 1
-            networkService.addLike(type: "post", ownerId: self.ownerId, id: self.id)
+            action = .add
         } else {
             likesCount -= 1
-            networkService.deleteLike(type: "post", ownerId: self.ownerId, id: self.id)
+            action = .delete
         }
-
+        
+        networkService.doLikesAction(action: action, type: .post, ownerId: self.ownerId, id: self.id)
     }
 }

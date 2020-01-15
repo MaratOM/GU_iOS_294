@@ -69,13 +69,17 @@ class LikeControlPath: UIControl {
         isLiked.toggle()
         setNeedsDisplay()
         
+        var action: NetworkService.LikesActions
+        
         if isLiked {
             likesCount += 1
-            networkService.addLike(type: "photo", ownerId: photo.ownerId, id: photo.id)
+            action = .add
         } else {
             likesCount -= 1
-            networkService.deleteLike(type: "photo", ownerId: photo.ownerId, id: photo.id)
+            action = .delete
         }
+        
+        networkService.doLikesAction(action: action, type: .photo, ownerId: photo.ownerId, id: photo.id)
     }
     
     // MARK: -  Public API

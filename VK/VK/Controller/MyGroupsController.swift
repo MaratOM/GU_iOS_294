@@ -78,7 +78,7 @@ class MyGroupsController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let group = groups[indexPath.row]
-            self.networkService.leaveGroup(id: group.id)
+            self.networkService.doGroupsAction(action: .leave, id: group.id)
             try! self.realmService.delete([group])
         }
     }
@@ -104,7 +104,7 @@ class MyGroupsController: UITableViewController {
         alertController.addAction(cancelAction)
         
         let OKAction = UIAlertAction(title: "Да", style: .default) { (action:UIAlertAction!) in
-            self.networkService.joinGroup(id: group.id)
+            self.networkService.doGroupsAction(action: .join, id: group.id)
             try! self.realmService.save([group])
             
             self.navigationController?.popViewController(animated: true)
