@@ -108,10 +108,10 @@ class FriendsController: UITableViewController {
         var firstLetters = Set<Character>()
         self.friendsDict = [Character: Results<Friend>]()
         
-        friends.sorted{ $0.name < $1.name }.forEach{ firstLetters.insert($0.name.first!) }
+        friends.sorted{ $0.lastName < $1.lastName }.forEach{ firstLetters.insert($0.lastName.first!) }
         
         firstLetters.forEach{ char in
-            friendsDict[char] = friends.filter("name BEGINSWITH %@", String(char))
+            friendsDict[char] = friends.filter("lastName BEGINSWITH %@", String(char))
         }
     }
 }

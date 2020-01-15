@@ -13,6 +13,8 @@ import RealmSwift
 class Friend: Object {
     @objc dynamic var id: Int = 0
     @objc dynamic var imageURL: String = ""
+    @objc dynamic var firstName: String = ""
+    @objc dynamic var lastName: String = ""
     @objc dynamic var name: String = ""
     var photos: [Photo] = []
     
@@ -22,6 +24,8 @@ class Friend: Object {
         guard json["first_name"].stringValue != "DELETED" else { return nil }
         
         self.id = json["id"].intValue
+        self.firstName = json["first_name"].stringValue
+        self.lastName = json["last_name"].stringValue
         self.name = json["first_name"].stringValue + " " + json["last_name"].stringValue
         self.imageURL = json["photo_100"].stringValue
     }
