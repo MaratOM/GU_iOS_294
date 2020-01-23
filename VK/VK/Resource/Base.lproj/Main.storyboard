@@ -297,8 +297,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="wC6-hM-OwG" kind="relationship" relationship="viewControllers" id="NTZ-JR-vUd"/>
                         <segue destination="3vf-8a-Vey" kind="relationship" relationship="viewControllers" id="6xo-fl-HVm"/>
+                        <segue destination="wC6-hM-OwG" kind="relationship" relationship="viewControllers" id="NTZ-JR-vUd"/>
                         <segue destination="xtv-O3-Xae" kind="relationship" relationship="viewControllers" id="Ady-Ne-GYA"/>
                     </connections>
                 </tabBarController>
@@ -646,11 +646,11 @@
             </objects>
             <point key="canvasLocation" x="-824.63768115942037" y="866.51785714285711"/>
         </scene>
-        <!--Item-->
+        <!--Публикации-->
         <scene sceneID="X2m-BG-F33">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3vf-8a-Vey" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="globe" catalog="system" id="Xuu-KW-NRf"/>
+                    <tabBarItem key="tabBarItem" title="Публикации" image="globe" catalog="system" id="Xuu-KW-NRf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ebX-hd-UcC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
