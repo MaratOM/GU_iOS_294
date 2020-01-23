@@ -563,7 +563,7 @@
                                                     <rect key="frame" x="0.0" y="30" width="414" height="168"/>
                                                     <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.0"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" priority="999" constant="200" id="xwe-Cq-2JQ"/>
+                                                        <constraint firstAttribute="height" priority="999" constant="410" id="xwe-Cq-2JQ"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZQ-aG-4B1">
