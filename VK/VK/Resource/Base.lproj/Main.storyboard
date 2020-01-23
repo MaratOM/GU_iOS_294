@@ -418,8 +418,8 @@
                                         <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DFx-af-HcF">
                                             <rect key="frame" x="10" y="10" width="150" height="150"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="DFx-af-HcF" secondAttribute="height" multiplier="1:1" id="g3G-MU-XVZ"/>
-                                                <constraint firstAttribute="width" constant="150" id="u1a-Og-B52"/>
+                                                <constraint firstAttribute="height" priority="999" constant="150" id="4aJ-8g-VX3"/>
+                                                <constraint firstAttribute="width" priority="999" constant="150" id="rj5-RF-YKm"/>
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OY4-k4-QSR" userLabel="Like Control View" customClass="LikeControlPath" customModule="VK" customModuleProvider="target">
@@ -456,7 +456,7 @@
                                         <constraint firstAttribute="bottom" secondItem="OY4-k4-QSR" secondAttribute="bottom" id="3Z4-ku-bKK"/>
                                         <constraint firstItem="1FI-CA-ORl" firstAttribute="centerY" secondItem="OY4-k4-QSR" secondAttribute="centerY" id="8Et-zs-tgX"/>
                                         <constraint firstItem="DFx-af-HcF" firstAttribute="leading" secondItem="hh5-Bg-oos" secondAttribute="leading" constant="10" id="Egy-p1-sbf"/>
-                                        <constraint firstItem="1FI-CA-ORl" firstAttribute="leading" secondItem="hh5-Bg-oos" secondAttribute="leading" constant="30" id="TyB-CG-moJ"/>
+                                        <constraint firstItem="1FI-CA-ORl" firstAttribute="leading" secondItem="hh5-Bg-oos" secondAttribute="leading" priority="999" constant="30" id="TyB-CG-moJ"/>
                                         <constraint firstItem="OY4-k4-QSR" firstAttribute="leading" secondItem="1FI-CA-ORl" secondAttribute="trailing" constant="6" id="iMn-9k-JSe"/>
                                         <constraint firstItem="DFx-af-HcF" firstAttribute="top" secondItem="hh5-Bg-oos" secondAttribute="top" constant="10" id="nmQ-b7-bVt"/>
                                         <constraint firstAttribute="trailing" secondItem="OY4-k4-QSR" secondAttribute="trailing" id="tGj-oE-Df6"/>
